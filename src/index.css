@@ -1,3 +1,11 @@
+/* src/index.css or src/App.css */
+
+/* Import the Google Font first */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+/* Then include the Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Your custom styles can follow after */
