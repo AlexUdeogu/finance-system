@@ -211,7 +211,7 @@ const Navbar = () => {
 
       {/* Second Half */}
       <div className="flex flex-col justify-end w-full lg:w-1/2 mt-xl lg:mt-0 lg:pl-6">
-        <p className="text-gray-800 font-bold text-2xl mb-4">
+        <p className="text-white font-bold text-2xl mb-4">
           Stay up to date
         </p>
         <input
