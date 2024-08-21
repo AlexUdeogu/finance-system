@@ -30,31 +30,15 @@ const Signup = () => {
           {/* First Half */}
           <div className="flex flex-col justify-center w-full lg:w-1/2">
             <h1 className="text-6xl font-bold mb-5 text-white text-center lg:text-left">
-              Take the first step towards unlocking your potential.
+            Reconnect with your potential and continue your journey.
             </h1>
             <p className="text-white text-lg mt-2 text-center lg:text-left">
-             Create an account to manage your finances effortlessly, anytime, anywhere.
+             Effortlessly access your account anytime, anywhere to manage your balance and much more.
             </p>
           </div>
 
           {/* Second Half */}
-          <div className="flex flex-col justify-end w-full lg:w-1/2 mt-xl lg:mt-0 lg:pl-6">
-            <p className="text-white text-base mb-2">
-              First name
-            </p>
-            <input
-              type="text"
-              placeholder="Enter your first name"
-              className="w-full mb-4 p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <p className="text-white text-base mb-2">
-              Last name
-            </p>
-            <input
-              type="text"
-              placeholder="Enter your Last name"
-              className="w-full mb-4 p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          <div className="flex flex-col justify-center w-full lg:w-1/2  lg:mt-0 lg:pl-6">
             <p className="text-white text-base mb-2">
               Email
             </p>
@@ -64,7 +48,7 @@ const Signup = () => {
               className="w-full mb-4 p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <p className="text-white text-base mb-2">
-              Enter your password
+                Password
             </p>
             <input
               type="password"
@@ -77,7 +61,7 @@ const Signup = () => {
               href="#open-account"  
               className="text-black bg-yellow-400 hover:bg-yellow-700 font-bold hover:text-black py-2 px-1 rounded-full transition duration-300 mt-6 w-40 lg:w-40 text-center"
             >
-              Open Account
+              Login
             </a>
           </div>
         </div>
