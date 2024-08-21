@@ -201,10 +201,10 @@ const Navbar = () => {
       {/* First Half */}
       <div className="flex flex-col justify-center w-full lg:w-1/2">
         <img src={Footer} alt="group" className="w-16 h-16" />
-        <h1 className="text-6xl font-bold mt-10 text-gray-800 text-center lg:text-left">
+        <h1 className="text-6xl font-bold mt-10 text-white text-center lg:text-left">
           Keep up with the <br/> latest
         </h1>
-        <p className="text-gray-600 text-lg mt-2 text-center lg:text-left">
+        <p className="text-white text-lg mt-2 text-center lg:text-left">
           With this platform, you can access your account anywhere, <br/> anytime for balance and so much more.
         </p>
       </div>
