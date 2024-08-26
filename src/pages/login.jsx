@@ -55,12 +55,12 @@ const Signup = () => {
             />
 
             {/* Open Account Button */}
-            <a 
-              href="#open-account"  
+            <Link 
+              to="/Dashboard"
               className="text-black bg-yellow-400 hover:bg-yellow-700 font-bold hover:text-black py-2 px-1 rounded-full transition duration-300 mt-6 w-40 lg:w-40 text-center"
             >
               Login
-            </a>
+            </Link>
           </div>
         </div>
       </div>
