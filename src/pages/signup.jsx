@@ -1,25 +1,25 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 
 const Signup = () => {
   return (
     <div className="font-manrope min-h-screen flex flex-col">
       {/* Header */}
-      <div className="sticky top-0 bg-white z-20">
+      <div 
+        className="sticky top-0 bg-white z-20"
+        >
         <div className="container px-6 py-4 flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-800">Logo</h1>
+         <Link to="/">
+          <h1 className="text-3xl ml-16 font-bold text-gray-800">Logo</h1>
+          </Link>
           <div className="flex items-center space-x-4">
-            <a 
-              href="#signup" 
-              className="text-black font-bold hover:text-yellow-400 transition duration-300"
+            <Link
+            to="/login"  
+            className="text-white bg-black hover:bg-yellow-400 font-bold hover:text-black py-2 px-4 rounded-full transition duration-300"
             >
-              Login
-            </a>
-            <a 
-              href="#login"  
-              className="text-white bg-black hover:bg-yellow-400 font-bold hover:text-black py-2 px-4 rounded-full transition duration-300 hidden lg:block"
-            >
-              Open Account
-            </a>
+                Login
+            </Link>
           </div>
         </div>
       </div>
@@ -64,7 +64,7 @@ const Signup = () => {
               className="w-full mb-4 p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <p className="text-white text-base mb-2">
-              Enter your password
+              Password
             </p>
             <input
               type="password"

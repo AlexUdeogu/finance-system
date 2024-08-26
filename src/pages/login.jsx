@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 
 const Signup = () => {
   return (
@@ -6,20 +8,16 @@ const Signup = () => {
       {/* Header */}
       <div className="sticky top-0 bg-white z-20">
         <div className="container px-6 py-4 flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-800">Logo</h1>
+        <Link to="/">
+          <h1 className="text-3xl ml-16  font-bold text-gray-800">Logo</h1>
+          </Link>
           <div className="flex items-center space-x-4">
-            <a 
-              href="#signup" 
-              className="text-black font-bold hover:text-yellow-400 transition duration-300"
+            <Link 
+                to="/signup"
+                className="text-white bg-black hover:bg-yellow-400 font-bold hover:text-black py-2 px-4 rounded-full transition duration-300"
             >
-              Login
-            </a>
-            <a 
-              href="#login"  
-              className="text-white bg-black hover:bg-yellow-400 font-bold hover:text-black py-2 px-4 rounded-full transition duration-300 hidden lg:block"
-            >
-              Open Account
-            </a>
+                Open Account
+            </Link>
           </div>
         </div>
       </div>
