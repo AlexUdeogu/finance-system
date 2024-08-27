@@ -7,6 +7,7 @@ import Dashboard from './pages/dashboard';
 import Info from './components/info';
 import Income from './components/income';
 import Expense from './components/expense';
+import Settings from './components/settings';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="info" element={<Info />} />
             <Route path="income" element={<Income />} />
             <Route path="expense" element={<Expense />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
         </Routes>
       </div>
