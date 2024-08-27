@@ -117,7 +117,14 @@ const Income = () => {
                 placeholder="Enter a description"
                 className="w-full p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 rows="4"
-              ></textarea>
+              >
+                
+              </textarea>
+                <button 
+                className="text-black bg-yellow-400 hover:bg-yellow-700 font-bold hover:text-black py-2 px-2 rounded-full transition duration-300 mt-6 w-40 lg:w-40 text-center"
+                >
+                    Submit
+                </button>              
             </div>
           </div>
         </div>
