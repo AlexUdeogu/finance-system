@@ -17,7 +17,7 @@ const Dashboard = () => {
             <Link to="/dashboard/income" className="text-black hover:text-yellow-400 transition duration-300">
               Incomes
             </Link>
-            <Link to="/dashboard/expenses" className="text-black hover:text-yellow-400 transition duration-300">
+            <Link to="/dashboard/expense" className="text-black hover:text-yellow-400 transition duration-300">
               Expenses
             </Link>
             <Link to="/dashboard/settings" className="text-black hover:text-yellow-400 transition duration-300">
@@ -35,15 +35,6 @@ const Dashboard = () => {
             </Link>
           </div>
         </div>
-      </div>
-
-      <div className='container mx-auto px-6 py-4'>
-        <h1 className="text-6xl font-bold text-gray-800">
-          Welcome, Alexander
-        </h1>
-        <p className="text-gray-600 mt-2 text-xl">
-          From easy money management to financial goals and investments.
-        </p>
       </div>
 
       {/* Add the Outlet component to render nested routes */}

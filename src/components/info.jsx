@@ -3,6 +3,16 @@ import React from 'react';
 const Info = () => {
   return (
     <div className='font-manrope'>
+
+    <div className='container mx-auto px-6 py-4'>
+        <h1 className="text-6xl font-bold text-gray-800">
+            Welcome, Alexander
+        </h1>
+        <p className="text-gray-600 mt-2 text-xl">
+          From easy money management to financial goals and investments.
+        </p>
+    </div>
+
       <div className="flex justify-center m-5 items-center">
         <div className="bg-gray-100 container mx-auto rounded-md py-4 flex flex-col lg:flex-row ">
           {/* First Half */}

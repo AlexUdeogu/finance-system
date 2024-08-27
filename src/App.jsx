@@ -6,6 +6,7 @@ import Login from './pages/login';
 import Dashboard from './pages/dashboard';
 import Info from './components/info';
 import Income from './components/income';
+import Expense from './components/expense';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route index element={<Info />} />  {/* Default route for Dashboard */}
             <Route path="info" element={<Info />} />
             <Route path="income" element={<Income />} />
+            <Route path="expense" element={<Expense />} />
           </Route>
         </Routes>
       </div>

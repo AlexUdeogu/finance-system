@@ -21,7 +21,7 @@ const Income = () => {
     <div>
       <div className='container mx-auto px-6 py-4'>
         <h1 className="text-6xl font-bold text-gray-800">
-          Income
+          Expenses
         </h1>
         <p className="text-gray-600 mt-2 text-xl">
           From easy money management to financial goals and investments.
@@ -32,15 +32,15 @@ const Income = () => {
         <div className="bg-gray-100 container mx-auto rounded-md py-4 flex flex-col lg:flex-row ">
           {/* First Half */}
           <div className="flex flex-col justify-start w-auto m-5 lg:w-1/2">
-            <div className='bg-green-200 mb-5 pt-5 pl-5 pb-3 pr-15 w-auto rounded-md max-w-md'>
+            <div className='bg-red-200 mb-5 pt-5 pl-5 pb-3 pr-15 w-auto rounded-md max-w-md'>
               <div>
                 <h1 className='font-semibold text-gray-800 text-2xl'>
-                  Income
+                  Expenses
                 </h1>
               </div>
               <div>
-                <p className='font-medium text-green-500 text-6xl'>
-                  ₦500,000
+                <p className='font-medium text-red-500 text-6xl'>
+                  ₦100,000
                 </p>
               </div>
             </div>
@@ -63,7 +63,7 @@ const Income = () => {
           <div className="flex flex-col justify-center w-full lg:w-1/2 lg:mt-0 lg:pl-6">
             <div className="bg-gray-100 pr-5 rounded-md">
               <p className="text-gray-800 text-base mb-2">
-                Income Title
+                Expense Title
               </p>
               <input
                 type="text"
@@ -71,7 +71,7 @@ const Income = () => {
                 className="w-full mb-4 p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <p className="text-gray-800 text-base mb-2">
-                Income Amount
+                Expense Amount
               </p>
               <input
                 type="number"
