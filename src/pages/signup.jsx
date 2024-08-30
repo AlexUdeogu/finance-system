@@ -29,6 +29,8 @@ const Signup = () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.post('/v1/auth/register', formData);
+      const { username } = response.data.user; // Assuming response includes user details
+      localStorage.setItem('username', username); // Save username to localStorage
       toast.success('Registration successful!');
       setTimeout(() => {
         navigate('/login');
@@ -115,9 +117,9 @@ const Signup = () => {
                 className="w-full mb-4 p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
-              <p className="text-white text-base mb-2">Phone Number</p>
+              <p className="text-white text-base mb-2">Phone</p>
               <input
-                type="tel"
+                type="text"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
@@ -135,6 +137,8 @@ const Signup = () => {
                 className="w-full p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
+
+              {/* Signup Button with Loader */}
               <button 
                 type="submit"
                 className="text-black bg-yellow-400 hover:bg-yellow-700 font-bold hover:text-black py-2 px-1 rounded-full transition duration-300 mt-6 w-40 lg:w-40 text-center relative"
@@ -145,10 +149,10 @@ const Signup = () => {
                     <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                       <div className="w-5 h-5 border-t-2 border-b-2 border-black rounded-full animate-spin"></div>
                     </span>
-                    <span className="opacity-0">Open Account</span>
+                    <span className="opacity-0">Sign Up</span>
                   </>
                 ) : (
-                  'Open Account'
+                  'Sign Up'
                 )}
               </button>
             </form>

@@ -25,8 +25,9 @@ const Login = () => {
     setIsLoading(true);
     try {
       const response = await axios.post('https://finaki-backend.onrender.com/api/v1/auth/login', formData);
+      const { username } = response.data.user; // Assuming response includes user details
+      localStorage.setItem('username', username); // Save username to localStorage
       toast.success('Login successful!');
-      // You might want to store the token or user data in localStorage or context here
       setTimeout(() => {
         navigate('/Dashboard');
       }, 2000);
@@ -42,8 +43,8 @@ const Login = () => {
       {/* Header */}
       <div className="sticky top-0 bg-white z-20">
         <div className="container px-6 py-4 flex items-center justify-between">
-        <Link to="/">
-          <h1 className="text-3xl ml-16  font-bold text-gray-800">Logo</h1>
+          <Link to="/">
+            <h1 className="text-3xl ml-16 font-bold text-gray-800">Logo</h1>
           </Link>
           <div className="flex items-center space-x-4">
             <Link 
@@ -57,20 +58,20 @@ const Login = () => {
       </div>
 
       {/* Main content */}
-      <div className=" flex justify-center m-5 items-center">
+      <div className="flex justify-center m-5 items-center">
         <div className="bg-gray-950 rounded-2xl p-20 max-w-6xl w-full flex flex-col lg:flex-row">
           {/* First Half */}
           <div className="flex flex-col justify-center w-full lg:w-1/2">
             <h1 className="text-6xl font-bold mb-5 text-white text-center lg:text-left">
-            Reconnect with your potential and continue your journey.
+              Reconnect with your potential and continue your journey.
             </h1>
             <p className="text-white text-lg mt-2 text-center lg:text-left">
-             Effortlessly access your account anytime, anywhere to manage your balance and much more.
+              Effortlessly access your account anytime, anywhere to manage your balance and much more.
             </p>
           </div>
 
           {/* Second Half */}
-          <div className="flex flex-col justify-center w-full lg:w-1/2  lg:mt-0 lg:pl-6">
+          <div className="flex flex-col justify-center w-full lg:w-1/2 lg:mt-0 lg:pl-6">
             <form onSubmit={handleSubmit}>
               <p className="text-white text-base mb-2">
                 Email
@@ -85,7 +86,7 @@ const Login = () => {
                 required
               />
               <p className="text-white text-base mb-2">
-                  Password
+                Password
               </p>
               <input
                 type="password"

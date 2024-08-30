@@ -4,9 +4,12 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 const Dashboard = () => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState('');
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     setActiveLink(location.pathname); // Set the active link based on the current path
+    const storedUsername = localStorage.getItem('username'); // Retrieve username from localStorage
+    setUsername(storedUsername || ''); // Set username state
   }, [location]);
 
   return (
@@ -45,7 +48,7 @@ const Dashboard = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <p className='font-semibold'>Hello, Alexander</p>  
+            <p className='font-semibold'>Hello, {username || 'User'}</p>  
             <Link 
               to="/login"
               className="text-white bg-black hover:bg-yellow-400 font-bold hover:text-black py-2 px-4 rounded-full transition duration-300 hidden lg:block"
@@ -56,7 +59,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Add the Outlet component to render nested routes */}
       <div className='container mx-auto px-6 py-4'>
         <Outlet />
       </div>
