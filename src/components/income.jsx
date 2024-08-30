@@ -28,11 +28,11 @@ const Income = () => {
         </p>
       </div>
 
-      <div className="flex justify-center m-5 items-center">
-        <div className="bg-gray-100 container mx-auto rounded-md py-4 flex flex-col lg:flex-row ">
+      <div className="flex justify-center m-2 items-center">
+        <div className="bg-gray-100 container mx-auto rounded-md p-10 flex flex-col lg:flex-row ">
           {/* First Half */}
           <div className="flex flex-col justify-start w-auto m-5 lg:w-1/2">
-            <div className='bg-green-200 mb-5 pt-5 pl-5 pb-3 pr-15 w-auto rounded-md max-w-md'>
+            <div className='bg-green-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-11/12'>
               <div>
                 <h1 className='font-semibold text-gray-800 text-2xl'>
                   Income
@@ -45,7 +45,7 @@ const Income = () => {
               </div>
             </div>
 
-            <div className='bg-blue-200 mb-5 pt-5 pl-5 pb-3 pr-15 w-auto rounded-md max-w-md'>
+            <div className='bg-blue-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-11/12'>
               <div>
                 <h1 className='font-semibold text-gray-800 text-2xl'>
                   Total Balance
@@ -56,6 +56,35 @@ const Income = () => {
                   ₦100,000
                 </p>
               </div>
+            </div>
+            {/* Add tabble side by side */}
+            <div className="bg-white p-10 w-11/12 rounded-xl">
+            <h2 className="text-2xl font-semibold mb-5">Recents</h2>
+
+              <table className="min-w-full  bg-white rounded-md">
+              <thead>
+                <tr>
+                  <th className="py-2 px-4 border-b border-gray-200 text-left">Title</th>
+                  <th className="py-2 px-4 border-b border-gray-200 text-left">Amount</th>
+                  <th className="py-2 px-4 border-b border-gray-200 text-left">Date</th>
+                  <th className="py-2 px-4 border-b border-gray-200 text-left">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">Rent</td>
+                  <td className="py-2 px-4 border-b border-gray-200">₦40,000</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">Groceries</td>
+                  <td className="py-2 px-4 border-b border-gray-200">₦20,000</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-4 border-b border-gray-200">Utilities</td>
+                  <td className="py-2 px-4 border-b border-gray-200">₦15,000</td>
+                </tr>
+              </tbody>
+            </table>
             </div>
           </div>
 

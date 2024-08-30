@@ -13,11 +13,11 @@ const Info = () => {
         </p>
     </div>
 
-      <div className="flex justify-center m-5 items-center">
-        <div className="bg-gray-100 container mx-auto rounded-md py-4 flex flex-col lg:flex-row ">
+      <div className="flex justify-center m-2 items-center">
+        <div className="bg-gray-100 container mx-auto rounded-md p-10 flex flex-col lg:flex-row ">
           {/* First Half */}
           <div className="flex flex-col justify-start w-auto m-5 lg:w-1/2">
-            <div className='bg-red-200 mb-5 pt-5 pl-5 pb-3 pr-15 w-auto rounded-md max-w-md'>
+            <div className='bg-red-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-11/12'>
               <div>
                 <h1 className='font-semibold text-gray-800 text-2xl'>
                   Expenses
@@ -30,7 +30,7 @@ const Info = () => {
               </div>
             </div>
 
-            <div className='bg-green-200 mb-5 pt-5 pl-5 pb-3 pr-15 w-auto rounded-md max-w-md'>
+            <div className='bg-green-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-11/12'>
               <div>
                 <h1 className='font-semibold text-gray-800 text-2xl'>
                   Income
@@ -43,7 +43,7 @@ const Info = () => {
               </div>
             </div>
 
-            <div className='bg-blue-200 mb-5 pt-5 pl-5 pb-3 pr-15 w-auto rounded-md max-w-md'>
+            <div className='bg-blue-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-11/12'>
               <div>
                 <h1 className='font-semibold text-gray-800 text-2xl'>
                   Total Balance

@@ -14,8 +14,8 @@ const settings = () => {
         </p>
       </div>
 
-      <div className="flex justify-center m-5 items-center">
-        <div className="bg-gray-100 container mx-auto rounded-md py-4 flex flex-col lg:flex-row ">
+      <div className="flex justify-center m-2 items-center">
+        <div className="bg-gray-100 container mx-auto rounded-md p-10 flex flex-col lg:flex-row ">
           {/* First Half */}
             <div className="flex flex-col justify-start w-auto m-5 lg:w-1/2 items-center">
                 <FaRegCircleUser
