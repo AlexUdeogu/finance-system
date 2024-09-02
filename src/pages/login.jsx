@@ -14,7 +14,7 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       [name]: value
     }));
@@ -25,13 +25,33 @@ const Login = () => {
     setIsLoading(true);
     try {
       const response = await axios.post('https://finaki-backend.onrender.com/api/v1/auth/login', formData);
-      const { username } = response.data.user; // Assuming response includes user details
-      localStorage.setItem('username', username); // Save username to localStorage
-      toast.success('Login successful!');
-      setTimeout(() => {
-        navigate('/Dashboard');
-      }, 2000);
+      
+      // Log the full response data to understand its structure
+      console.log('Full response data:', response.data);
+
+      // Destructure the response data
+      const { success, message, user } = response.data;
+
+      if (success) {
+        const { token, _id } = user; // Extract token and user ID from the user object
+
+        // Log the token and user ID to the console
+        console.log('Token:', token);
+        console.log('User ID:', _id);
+
+        // Store token and user ID in localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', _id); // Store userId as _id
+
+        toast.success(message);
+        setTimeout(() => {
+          navigate('/Dashboard');
+        }, 2000);
+      } else {
+        toast.error(message);
+      }
     } catch (error) {
+      console.error('Login error:', error); // Log error details
       toast.error(error.response?.data?.message || 'Login failed. Please try again.');
     } finally {
       setIsLoading(false);
