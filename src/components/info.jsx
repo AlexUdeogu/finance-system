@@ -144,9 +144,9 @@ const Info = () => {
     datasets: [
       {
         data: [totalIncome, totalExpense],
-        backgroundColor: ['#28a745', '#dc3545'],
-        hoverBackgroundColor: ['#28a745', '#dc3545'],
-      },
+        backgroundColor: ['#22c55e', '#ef4444 '],  
+        hoverBackgroundColor: ['#218838', '#c82333'],
+      },  
     ],
   };
 
@@ -172,11 +172,11 @@ const Info = () => {
         </p>
       </div>
 
-      <div className="flex justify-center m-2 items-center">
-        <div className="bg-gray-100 container mx-auto rounded-md p-10 flex flex-col lg:flex-row ">
+      <div className="flex container justify-center mx-auto min-w-7xl items-center">
+        <div className="bg-gray-100 container mx-auto rounded-md p-10 flex flex-col lg:flex-row">
           {/* First Half */}
-          <div className="flex flex-col justify-start w-auto m-5 lg:w-1/2">
-            <div className='bg-red-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-11/12'>
+          <div className="flex flex-col justify-start w-full lg:w-1/2 m-5">
+            <div className='bg-red-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-full'>
               <div>
                 <h1 className='font-semibold text-gray-800 text-2xl'>
                   Total Expense
@@ -189,7 +189,7 @@ const Info = () => {
               </div>
             </div>
 
-            <div className='bg-green-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-11/12'>
+            <div className='bg-green-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-full'>
               <div>
                 <h1 className='font-semibold text-gray-800 text-2xl'>
                   Total Income
@@ -202,7 +202,7 @@ const Info = () => {
               </div>
             </div>
 
-            <div className='bg-gray-300 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-11/12'>
+            <div className='bg-gray-300 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-full'>
               <div>
                 <h1 className='font-semibold text-gray-800 text-2xl'>
                   Balance
@@ -217,40 +217,23 @@ const Info = () => {
           </div>
 
           {/* Second Half */}
-          <div className="flex flex-col justify-start w-auto lg:w-1/2">
-            <div className='w-full bg-white rounded-md'>
-              <Doughnut data={data} options={options} />
-            </div>
-            <div className='mt-10'>
-              <table className="min-w-full bg-white rounded-md">
-                <thead>
-                  <tr>
-                    <th className="py-2 px-4 border-b border-gray-200 text-left"></th>
-                    <th className="py-2 px-4 border-b border-gray-200 text-left">Min</th>
-                    <th className="py-2 px-4 border-b border-gray-200 text-left">Max</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="py-2 px-4 border-b border-gray-200">Income</td>
-                    <td className="py-2 px-4 border-b border-gray-200">₦{minIncome.toLocaleString()}</td>
-                    <td className="py-2 px-4 border-b border-gray-200">₦{maxIncome.toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td className="py-2 px-4 border-b border-gray-200">Expense</td>
-                    <td className="py-2 px-4 border-b border-gray-200">₦{minExpense.toLocaleString()}</td>
-                    <td className="py-2 px-4 border-b border-gray-200">₦{maxExpense.toLocaleString()}</td>
-                  </tr>
-                </tbody>
-              </table>
+          <div className="flex flex-col justify-center items-center w-full lg:w-1/2">
+            {/* Doughnut Chart */}
+            <div className='flex justify-center items-center w-full' style={{ width: '500px', height: '500px' }}>
+              <Doughnut 
+                data={data} 
+                options={options} 
+                width={400}  // Adjust this value for width
+                height={400} // Adjust this value for height
+              />
             </div>
           </div>
         </div>
       </div>
 
       {/* Line Chart */}
-      <div className='container mx-auto px-6 rounded-sm py-4'>
-        <div className="flex justify-center p-20 bg-gray-100 mx-auto items-center">
+      <div className='container mx-auto min-w-7xl rounded-sm my-10'>
+        <div className="flex justify-center p-10 bg-gray-100 mx-auto items-center">
           <Line data={lineChartData} options={{ responsive: true, maintainAspectRatio: false }} />
         </div>
       </div>
