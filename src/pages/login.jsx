@@ -33,15 +33,17 @@ const Login = () => {
       const { success, message, user } = response.data;
 
       if (success) {
-        const { token, _id } = user; // Extract token and user ID from the user object
+        const { token, _id, username } = user; // Extract username along with token and user ID
 
-        // Log the token and user ID to the console
+        // Log the token, user ID, and username to the console
         console.log('Token:', token);
         console.log('User ID:', _id);
+        console.log('Username:', username);
 
-        // Store token and user ID in localStorage
+        // Store token, user ID, and username in localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('userId', _id); // Store userId as _id
+        localStorage.setItem('username', username); // Store the username
 
         toast.success(message);
         setTimeout(() => {
@@ -142,6 +144,6 @@ const Login = () => {
       <ToastContainer />
     </div>
   );
-}
+};
 
 export default Login;

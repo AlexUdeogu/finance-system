@@ -25,114 +25,129 @@ const Info = () => {
   const [lineChartData, setLineChartData] = useState({ labels: [], datasets: [] });
   const [username, setUsername] = useState('');
 
-  useEffect(() => {
-    // Retrieve token, userId, and username from local storage
+  const fetchIncomes = async () => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
+
+    try {
+      const response = await axios.get('https://finaki-backend.onrender.com/api/v1/income/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          userId: userId,
+        }
+      });
+
+      if (response.data.success && Array.isArray(response.data.Incomes) && response.data.Incomes.length > 0) {
+        const validIncomes = response.data.Incomes.filter(item => typeof item.amount === 'number');
+        setIncomes(validIncomes);
+        const total = validIncomes.reduce((acc, income) => acc + income.amount, 0);
+        setTotalIncome(total);
+        updateLineChart(validIncomes, expenses);
+      } else {
+        toast.error('No income data available or invalid format.');
+      }
+    } catch (error) {
+      console.error('Error fetching income:', error);
+      toast.error('Error fetching income data.');
+    }
+  };
+
+  const fetchExpenses = async () => {
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await axios.get('https://finaki-backend.onrender.com/api/v1/expense/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.data.success && Array.isArray(response.data.Expenses) && response.data.Expenses.length > 0) {
+        const validExpenses = response.data.Expenses.filter(item => typeof item.amount === 'number');
+        setExpenses(validExpenses);
+        const total = validExpenses.reduce((acc, expense) => acc + expense.amount, 0);
+        setTotalExpense(total);
+        updateLineChart(incomes, validExpenses);
+      } else {
+        toast.error('No expense data available or invalid format.');
+      }
+    } catch (error) {
+      console.error('Error fetching expense:', error);
+      toast.error('Error fetching expense data.');
+    }
+  };
+
+  const updateLineChart = (incomes, expenses) => {
+    const incomeLabels = incomes.map(income => new Date(income.date).toLocaleDateString());
+    const incomeValues = incomes.map(income => income.amount);
+    const expenseLabels = expenses.map(expense => new Date(expense.date).toLocaleDateString());
+    const expenseValues = expenses.map(expense => expense.amount);
+
+    const allLabels = [...new Set([...incomeLabels, ...expenseLabels])];
+
+    const formattedIncomes = allLabels.map(label => {
+      const index = incomeLabels.indexOf(label);
+      return index > -1 ? incomeValues[index] : 0;
+    });
+
+    const formattedExpenses = allLabels.map(label => {
+      const index = expenseLabels.indexOf(label);
+      return index > -1 ? expenseValues[index] : 0;
+    });
+
+    setLineChartData({
+      labels: allLabels,
+      datasets: [
+        {
+          label: 'Incomes',
+          data: formattedIncomes,
+          borderColor: '#28a745',
+          backgroundColor: 'rgba(40, 167, 69, 0.2)',
+          fill: true,
+        },
+        {
+          label: 'Expenses',
+          data: formattedExpenses,
+          borderColor: '#dc3545',
+          backgroundColor: 'rgba(220, 53, 69, 0.2)',
+          fill: true,
+        }
+      ]
+    });
+  };
+
+  useEffect(() => {
+    // Debugging: Check what is stored in local storage
+    console.log('Stored username:', localStorage.getItem('username'));
+    console.log('Stored token:', localStorage.getItem('token'));
+    console.log('Stored userId:', localStorage.getItem('userId'));
+
+    // Retrieve username from local storage
     const storedUsername = localStorage.getItem('username');
     setUsername(storedUsername || 'User');
+
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
 
     if (!token || !userId) {
       toast.error('Authentication details are missing.');
       return;
     }
 
-    const fetchIncomes = async () => {
-      try {
-        const response = await axios.get('https://finaki-backend.onrender.com/api/v1/income/user', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            userId: userId,
-          }
-        });
-
-        console.log('Incomes response:', response.data);
-        if (response.data.success && Array.isArray(response.data.Incomes) && response.data.Incomes.length > 0) {
-          const validIncomes = response.data.Incomes.filter(item => typeof item.amount === 'number');
-          console.log('Valid incomes:', validIncomes);
-          setIncomes(validIncomes);
-          const total = validIncomes.reduce((acc, income) => acc + income.amount, 0);
-          setTotalIncome(total);
-          updateLineChart(validIncomes, expenses);
-        } else {
-          toast.error('No income data available or invalid format.');
-        }
-      } catch (error) {
-        console.error('Error fetching income:', error);
-        toast.error('Error fetching income data.');
-      }
-    };
-
-    const fetchExpenses = async () => {
-      try {
-        const response = await axios.get('https://finaki-backend.onrender.com/api/v1/expense/user', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        console.log('Expenses response:', response.data);
-        if (response.data.success && Array.isArray(response.data.Expenses) && response.data.Expenses.length > 0) {
-          const validExpenses = response.data.Expenses.filter(item => typeof item.amount === 'number');
-          console.log('Valid expenses:', validExpenses);
-          setExpenses(validExpenses);
-          const total = validExpenses.reduce((acc, expense) => acc + expense.amount, 0);
-          setTotalExpense(total);
-          updateLineChart(incomes, validExpenses);
-        } else {
-          toast.error('No expense data available or invalid format.');
-        }
-      } catch (error) {
-        console.error('Error fetching expense:', error);
-        toast.error('Error fetching expense data.');
-      }
-    };
-
-    const updateLineChart = (incomes, expenses) => {
-      const incomeLabels = incomes.map(income => new Date(income.date).toLocaleDateString());
-      const incomeValues = incomes.map(income => income.amount);
-      const expenseLabels = expenses.map(expense => new Date(expense.date).toLocaleDateString());
-      const expenseValues = expenses.map(expense => expense.amount);
-
-      // Combine and deduplicate labels
-      const allLabels = [...new Set([...incomeLabels, ...expenseLabels])];
-      
-      // Reformat data to align with all labels
-      const formattedIncomes = allLabels.map(label => {
-        const index = incomeLabels.indexOf(label);
-        return index > -1 ? incomeValues[index] : 0;
-      });
-      
-      const formattedExpenses = allLabels.map(label => {
-        const index = expenseLabels.indexOf(label);
-        return index > -1 ? expenseValues[index] : 0;
-      });
-
-      setLineChartData({
-        labels: allLabels,
-        datasets: [
-          {
-            label: 'Incomes',
-            data: formattedIncomes,
-            borderColor: '#28a745',
-            backgroundColor: 'rgba(40, 167, 69, 0.2)',
-            fill: true,
-          },
-          {
-            label: 'Expenses',
-            data: formattedExpenses,
-            borderColor: '#dc3545',
-            backgroundColor: 'rgba(220, 53, 69, 0.2)',
-            fill: true,
-          }
-        ]
-      });
-    };
-
+    // Initial data fetch
     fetchIncomes();
     fetchExpenses();
+
+    // Set up polling every 5 seconds
+    const interval = setInterval(() => {
+      fetchIncomes();
+      fetchExpenses();
+    }, 5000); // Poll every 5 seconds
+
+    // Clean up interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -154,11 +169,6 @@ const Info = () => {
     maintainAspectRatio: false,
     responsive: true,
   };
-
-  const minIncome = incomes.length ? Math.min(...incomes.map(item => item.amount)) : 0;
-  const maxIncome = incomes.length ? Math.max(...incomes.map(item => item.amount)) : 0;
-  const minExpense = expenses.length ? Math.min(...expenses.map(item => item.amount)) : 0;
-  const maxExpense = expenses.length ? Math.max(...expenses.map(item => item.amount)) : 0;
 
   return (
     <div className='font-manrope'>
@@ -232,9 +242,9 @@ const Info = () => {
       </div>
 
       {/* Line Chart */}
-      <div className='container mx-auto min-w-7xl rounded-sm my-10'>
-        <div className="flex justify-center p-10 bg-gray-100 mx-auto items-center">
-          <Line data={lineChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+      <div className="flex flex-col container mx-auto min-w-7xl py-6 items-center">
+        <div className="bg-gray-100 mb-10 rounded-md p-5 w-full">
+          <Line data={lineChartData} />
         </div>
       </div>
     </div>
