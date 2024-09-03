@@ -275,12 +275,20 @@ const Info = () => {
         </div>
       </div>
 
-      {/* Line Chart */}
       <div className='container mx-auto min-w-7xl rounded-sm my-10'>
         <div className="flex justify-center p-10 bg-gray-100 mx-auto items-center">
-          <Line data={lineChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+          <div style={{ width: '800px', height: '400px' }}> 
+            <Line 
+              data={lineChartData} 
+              options={{ 
+                responsive: true, 
+                maintainAspectRatio: false 
+              }} 
+            />
+          </div>
         </div>
       </div>
+
 
       {/* Recents Table */}
       <RecentsTable transactions={recentTransactions} />
