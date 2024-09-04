@@ -325,7 +325,7 @@ const Income = () => {
                 ) : (
                   'Add Income'
                 )}
-              </button>
+              </button> 
             </div>
           </div>
         </div>

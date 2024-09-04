@@ -307,12 +307,12 @@ const Expense = () => {
                     <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                       <div className="w-5 h-5 border-t-2 border-b-2 border-black rounded-full animate-spin"></div>
                     </span>
-                    <span className="opacity-0">Add Expense</span>
+                    <span className="opacity-0">Add Income</span>
                   </>
                 ) : (
                   'Add Expense'
                 )}
-              </button>
+              </button> 
             </div>
           </div>
         </div>
