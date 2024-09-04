@@ -17,15 +17,15 @@ import 'react-toastify/dist/ReactToastify.css';
 ChartJS.register(ArcElement, Tooltip, Legend, LineElement, PointElement, LinearScale, CategoryScale);
 
 const RecentsTable = ({ transactions }) => (
-  <div className="bg-gray-100 mb-10 rounded-md p-5 w-full">
-    <h2 className="text-2xl font-semibold mb-4">Recent Transactions</h2>
-    <table className="w-full bg-white border border-gray-300 rounded-md">
+  <div className="bg-gray-100 mb-10 rounded-md p-10 w-full">
+    <table className="w-full rounded-md">
       <thead>
-        <tr className="bg-gray-200">
+        <tr className="bg-white ">
           <th className="p-3 text-left">Type</th>
           <th className="p-3 text-left">Title</th>
           <th className="p-3 text-left">Amount</th>
           <th className="p-3 text-left">Date</th>
+          <th className="p-3 text-left">Description</th>
         </tr>
       </thead>
       <tbody>
@@ -36,11 +36,12 @@ const RecentsTable = ({ transactions }) => (
               <td className="p-3">{transaction.title}</td>
               <td className="p-3">₦{transaction.amount.toLocaleString()}</td>
               <td className="p-3">{new Date(transaction.date).toLocaleDateString()}</td>
+              <td className="p-3">{transaction.description}</td>
             </tr>
           ))
         ) : (
           <tr>
-            <td colSpan="4" className="p-3 text-center">No recent transactions</td>
+            <td colSpan="5" className="p-3 text-center">No recent transactions</td>
           </tr>
         )}
       </tbody>
@@ -93,7 +94,12 @@ const Info = () => {
           const recentIncomes = validIncomes.slice(0, 5); // Last 5 incomes
           setRecentTransactions(prev => [
             ...prev.filter(item => item.type !== 'income'),
-            ...recentIncomes.map(income => ({ ...income, type: 'income', date: income.date }))
+            ...recentIncomes.map(income => ({ 
+              ...income, 
+              type: 'income', 
+              date: income.date,
+              description: income.description || 'No description' // Add description
+            }))
           ]);
 
           updateLineChart(validIncomes, expenses);
@@ -126,7 +132,12 @@ const Info = () => {
           const recentExpenses = validExpenses.slice(0, 5); // Last 5 expenses
           setRecentTransactions(prev => [
             ...prev.filter(item => item.type !== 'expense'),
-            ...recentExpenses.map(expense => ({ ...expense, type: 'expense', date: expense.date }))
+            ...recentExpenses.map(expense => ({ 
+              ...expense, 
+              type: 'expense', 
+              date: expense.date,
+              description: expense.description || 'No description' // Add description
+            }))
           ]);
 
           updateLineChart(incomes, validExpenses);
@@ -261,7 +272,7 @@ const Info = () => {
           </div>
 
           {/* Second Half */}
-          <div className="flex flex-col justify-center items-center w-full lg:w-1/2">
+          <div className="flex flex-col  justify-center items-center w-full lg:w-1/2">
             {/* Doughnut Chart */}
             <div className='flex justify-center items-center w-full' style={{ width: '500px', height: '500px' }}>
               <Doughnut 
@@ -275,9 +286,19 @@ const Info = () => {
         </div>
       </div>
 
-      <div className='container mx-auto min-w-7xl rounded-sm my-10'>
-        <div className="flex justify-center p-10 bg-gray-100 mx-auto items-center">
-          <div style={{ width: '800px', height: '400px' }}> 
+
+
+            {/* Recents Table */}
+      <h2 className="text-2xl font-semibold mt-10 mb-5">Recent Transactions</h2>
+      <RecentsTable transactions={recentTransactions} />
+
+
+
+      <div className='container mx-auto min-w-7xl rounded-md my-10'>
+        <h2 className="text-2xl font-semibold mb-4">Line Chart</h2>
+        <div className="flex justify-center rounded-md p-10 bg-gray-100 mx-auto items-center">
+          <div className='bg-white rounded-md p-10 '
+           style={{ width: '1000px', height: '400px' }}> 
             <Line 
               data={lineChartData} 
               options={{ 
@@ -290,8 +311,7 @@ const Info = () => {
       </div>
 
 
-      {/* Recents Table */}
-      <RecentsTable transactions={recentTransactions} />
+
     </div>
   );
 };
