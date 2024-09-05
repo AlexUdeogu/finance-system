@@ -34,6 +34,7 @@ const Income = () => {
   const [recentIncomes, setRecentIncomes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [lineChartData, setLineChartData] = useState({ labels: [], datasets: [] });
+  const [deletingIncomeId, setDeletingIncomeId] = useState(null);
 
   useEffect(() => {
     fetchIncomeData();
@@ -163,7 +164,7 @@ const Income = () => {
   };
 
   const handleDelete = async (incomeId) => {
-    setIsLoading(true);
+    setDeletingIncomeId(incomeId);
     try {
       const token = localStorage.getItem('token');
       await axios.delete(`https://finaki-backend.onrender.com/api/v1/income/${incomeId}`, {
@@ -178,7 +179,7 @@ const Income = () => {
       toast.error(error.response?.data?.message || 'Failed to delete income.');
       console.error('Error deleting income:', error);
     } finally {
-      setIsLoading(false);
+      setDeletingIncomeId(null);
     }
   };
 
@@ -232,9 +233,19 @@ const Income = () => {
                         <td>
                           <button
                             onClick={() => handleDelete(income._id)}
-                            className="text-red-500 hover:text-white bg-red-200 hover:bg-red-700 font-bold mx-3 py-1 px-3 rounded-full transition duration-300"
+                            className="text-red-500 hover:text-white bg-red-200 hover:bg-red-700 font-bold mx-3 py-1 px-3 rounded-full transition duration-300 relative"
+                            disabled={deletingIncomeId === income._id}
                           >
-                            Delete
+                            {deletingIncomeId === income._id ? (
+                              <>
+                                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                                  <div className="w-4 h-4 border-t-2 border-b-2 border-red-500 rounded-full animate-spin"></div>
+                                </span>
+                                <span className="opacity-0">Delete</span>
+                              </>
+                            ) : (
+                              'Delete'
+                            )}
                           </button>
                         </td>
                       </tr>
