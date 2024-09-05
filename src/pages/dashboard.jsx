@@ -23,32 +23,32 @@ const Dashboard = () => {
           <div className="hidden lg:flex flex-grow justify-start items-center ml-12 font-bold space-x-10">
             <Link 
               to="/dashboard/info" 
-              className={`text-black transition duration-300 ${activeLink === '/dashboard/info' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
+              className={`text-gray-800  transition duration-300 ${activeLink === '/dashboard/info' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
             >
               Dashboard
             </Link>
             <Link 
               to="/dashboard/income" 
-              className={`text-black transition duration-300 ${activeLink === '/dashboard/income' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
+              className={`text-gray-800  transition duration-300 ${activeLink === '/dashboard/income' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
             >
               Incomes
             </Link>
             <Link 
               to="/dashboard/expense" 
-              className={`text-black transition duration-300 ${activeLink === '/dashboard/expense' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
+              className={`text-gray-800  transition duration-300 ${activeLink === '/dashboard/expense' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
             >
               Expenses
             </Link>
             <Link 
               to="/dashboard/settings" 
-              className={`text-black transition duration-300 ${activeLink === '/dashboard/settings' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
+              className={`text-gray-800  transition duration-300 ${activeLink === '/dashboard/settings' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
             >
               Settings
             </Link>
           </div>
 
           <div className="flex items-center space-x-4">
-            <p className='font-semibold'>Hello, {username || 'User'}</p>  
+            <p className='font-semibold text-gray-800 '>Hello, {username || 'User'}</p>  
             <Link 
               to="/login"
               className="text-white bg-black hover:bg-yellow-400 font-bold hover:text-black py-2 px-4 rounded-full transition duration-300 hidden lg:block"

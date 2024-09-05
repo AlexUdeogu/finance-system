@@ -21,22 +21,22 @@ const RecentsTable = ({ transactions }) => (
     <table className="w-full rounded-md">
       <thead>
         <tr className="bg-white ">
-          <th className="p-3 text-left">Type</th>
-          <th className="p-3 text-left">Title</th>
-          <th className="p-3 text-left">Amount</th>
-          <th className="p-3 text-left">Date</th>
-          <th className="p-3 text-left">Description</th>
+          <th className="p-3 text-gray-800  text-left">Type</th>
+          <th className="p-3 text-gray-800  text-left">Title</th>
+          <th className="p-3 text-gray-800  text-left">Amount</th>
+          <th className="p-3 text-gray-800  text-left">Date</th>
+          <th className="p-3 text-gray-800  text-left">Description</th>
         </tr>
       </thead>
       <tbody>
         {transactions.length > 0 ? (
           transactions.map((transaction) => (
             <tr key={transaction._id}>
-              <td className="p-3">{transaction.type}</td>
-              <td className="p-3">{transaction.title}</td>
-              <td className="p-3">₦{transaction.amount.toLocaleString()}</td>
-              <td className="p-3">{new Date(transaction.date).toLocaleDateString()}</td>
-              <td className="p-3">{transaction.description}</td>
+              <td className="text-gray-800 p-3">{transaction.type}</td>
+              <td className="text-gray-800 p-3">{transaction.title}</td>
+              <td className="text-gray-800 p-3">₦{transaction.amount.toLocaleString()}</td>
+              <td className="text-gray-800 p-3">{new Date(transaction.date).toLocaleDateString()}</td>
+              <td className="text-gray-800 p-3">{transaction.description}</td>
             </tr>
           ))
         ) : (
@@ -289,13 +289,13 @@ const Info = () => {
 
 
             {/* Recents Table */}
-      <h2 className="text-2xl font-semibold mt-10 mb-5">Recent Transactions</h2>
+      <h2 className="text-2xl font-semibold text-gray-800  mt-10 mb-5">Recent Transactions</h2>
       <RecentsTable transactions={recentTransactions} />
 
 
 
       <div className='container mx-auto min-w-7xl rounded-md my-10'>
-        <h2 className="text-2xl font-semibold mb-4">Line Chart</h2>
+        <h2 className="text-2xl text-gray-800  font-semibold mb-4">Line Chart</h2>
         <div className="flex justify-center rounded-md p-10 bg-gray-100 mx-auto items-center">
           <div className='bg-white rounded-md p-10 '
            style={{ width: '1000px', height: '400px' }}> 
