@@ -208,55 +208,57 @@ const Income = () => {
 
             {/* Line Chart */}
             <div className="bg-white p-5 w-full rounded-xl mb-5">
+              <h2 className="text-2xl text-gray-800 font-semibold mb-5">Income Over Time</h2>
               <Line data={lineChartData} options={lineChartOptions} />
             </div>
 
             {/* Recents Table */}
-            <div className="bg-white p-10 w-full rounded-xl" style={{ maxHeight: '1000px', overflowY: 'auto' }}>
-              <h2 className="text-2xl font-semibold mb-5">Recents</h2>
-
-              <table className="min-w-full bg-white rounded-md">
-                <thead>
-                  <tr>
-                    <th className="py-2 px-4 border-b border-gray-200 text-left">Title</th>
-                    <th className="py-2 px-4 border-b border-gray-200 text-left">Amount</th>
-                    <th className="py-2 px-4 border-b border-gray-200 text-left">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentIncomes.length > 0 ? (
-                    recentIncomes.map((income) => (
-                      <tr key={income._id}>
-                        <td className="py-2 px-4 border-b whitespace-nowrap border-gray-200">{income.title}</td>
-                        <td className="py-2 px-4 border-b border-gray-200">₦{income.amount.toLocaleString()}</td>
-                        <td className="py-2 px-4 border-b border-gray-200">{new Date(income.date).toLocaleDateString()}</td>
-                        <td>
-                          <button
-                            onClick={() => handleDelete(income._id)}
-                            className="text-red-500 hover:text-white bg-red-200 hover:bg-red-700 font-bold mx-3 py-1 px-3 rounded-full transition duration-300 relative"
-                            disabled={deletingIncomeId === income._id}
-                          >
-                            {deletingIncomeId === income._id ? (
-                              <>
-                                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                                  <div className="w-4 h-4 border-t-2 border-b-2 border-red-500 rounded-full animate-spin"></div>
-                                </span>
-                                <span className="opacity-0">Delete</span>
-                              </>
-                            ) : (
-                              'Delete'
-                            )}
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
+            <div className="bg-white p-7 w-full rounded-xl" style={{ maxHeight: '350px', overflowY: 'auto' }}>
+              <h2 className="text-2xl text-gray-800 font-semibold mb-5">Recents</h2>
+              <div className='overflow-y-auto'> 
+                <table className="min-w-full bg-white rounded-md">
+                  <thead className="sticky top-0 bg-white">
                     <tr>
-                      <td className="py-2 px-4 border-b border-gray-200" colSpan="4">No income records found.</td>
+                      <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Title</th>
+                      <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Amount</th>
+                      <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Date</th>
                     </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {recentIncomes.length > 0 ? (
+                      recentIncomes.map((income) => (
+                        <tr key={income._id}>
+                          <td className="py-2 px-4 text-gray-800 border-b whitespace-nowrap border-gray-200">{income.title}</td>
+                          <td className="py-2 px-4 text-gray-800 border-b border-gray-200">₦{income.amount.toLocaleString()}</td>
+                          <td className="py-2 px-4 text-gray-800 border-b border-gray-200">{new Date(income.date).toLocaleDateString()}</td>
+                          <td>
+                            <button
+                              onClick={() => handleDelete(income._id)}
+                              className="text-red-500 hover:text-white bg-red-200 hover:bg-red-700 font-bold mx-3 py-1 px-3 rounded-full transition duration-300 relative"
+                              disabled={deletingIncomeId === income._id}
+                            >
+                              {deletingIncomeId === income._id ? (
+                                <>
+                                  <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                                    <div className="w-4 h-4 border-t-2 border-b-2 border-red-500 rounded-full animate-spin"></div>
+                                  </span>
+                                  <span className="opacity-0">Delete</span>
+                                </>
+                              ) : (
+                                'Delete'
+                              )}
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td className="py-2 px-4 border-b border-gray-200" colSpan="4">No income records found.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
@@ -314,7 +316,7 @@ const Income = () => {
                 onChange={handleDescriptionChange}
                 placeholder="Enter a brief description, max 20 characters"
                 className="w-full mb-4 p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                style={{ minHeight: '150px' }}
+                style={{ minHeight: '300px' }}
                 maxLength="20"
               >
               </textarea>

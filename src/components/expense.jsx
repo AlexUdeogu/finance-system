@@ -200,28 +200,29 @@ const Expense = () => {
 
             {/* Line Chart */}
             <div className="bg-white p-5 w-full rounded-xl mb-5">
+              <h2 className="text-2xl text-gray-800 font-semibold mb-5">Expenses Over Time</h2>
               <Line data={lineChartData} options={lineChartOptions} />
             </div>
 
             {/* Recents Table */}
-            <div className="bg-white p-10 w-full rounded-xl" style={{ maxHeight: '1000px', overflowY: 'auto' }}>
-              <h2 className="text-2xl font-semibold mb-5">Recents</h2>
-
+            <div className="bg-white p-7 w-full rounded-xl" style={{ maxHeight: '350px', overflowY: 'auto' }}>
+              <h2 className="text-2xl text-gray-800 font-semibold mb-5">Recents</h2>
+              <div className='overflow-y-auto'> 
               <table className="min-w-full bg-white rounded-md">
-                <thead>
+                <thead className="sticky top-0 bg-white">
                   <tr>
-                    <th className="py-2 px-4 border-b border-gray-200 text-left">Title</th>
-                    <th className="py-2 px-4 border-b border-gray-200 text-left">Amount</th>
-                    <th className="py-2 px-4 border-b border-gray-200 text-left">Date</th>
+                    <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Title</th>
+                    <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Amount</th>
+                    <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   {recentExpenses.length > 0 ? (
                     recentExpenses.map((expense) => (
                       <tr key={expense._id}>
-                        <td className="py-2 px-4 border-b whitespace-nowrap border-gray-200">{expense.title}</td>
-                        <td className="py-2 px-4 border-b border-gray-200">₦{expense.amount.toLocaleString()}</td>
-                        <td className="py-2 px-4 border-b border-gray-200">{new Date(expense.date).toLocaleDateString()}</td>
+                        <td className="py-2 px-4 text-gray-800 border-b whitespace-nowrap border-gray-200">{expense.title}</td>
+                        <td className="py-2 px-4 text-gray-800 border-b border-gray-200">₦{expense.amount.toLocaleString()}</td>
+                        <td className="py-2 px-4 text-gray-800  border-b border-gray-200">{new Date(expense.date).toLocaleDateString()}</td>
                         <td>
                           <button
                             onClick={() => handleDelete(expense._id)}
@@ -249,6 +250,7 @@ const Expense = () => {
                   )}
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
 
@@ -301,7 +303,7 @@ const Expense = () => {
                 onChange={handleDescriptionChange}
                 placeholder="Enter a brief description, max 20 characters"
                 className="w-full mb-4 p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                style={{ minHeight: '150px' }}
+                style={{ minHeight: '300px' }}
                 maxLength="20"
               >
               </textarea>
