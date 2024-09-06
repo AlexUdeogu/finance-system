@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
 import { Doughnut, Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -12,13 +11,12 @@ import {
   LinearScale,
   CategoryScale
 } from 'chart.js';
-import 'react-toastify/dist/ReactToastify.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend, LineElement, PointElement, LinearScale, CategoryScale);
 
 const RecentsTable = ({ transactions }) => (
-  <div className="bg-gray-100 mb-10 rounded-md p-10 w-full">
-    <table className="w-full rounded-md">
+  <div className="bg-gray-100 mb-10 rounded-md p-10 w-full" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+    <table className="w-full rounded-md" >
       <thead>
         <tr className="bg-white ">
           <th className="p-3 text-gray-800  text-left">Type</th>
@@ -32,7 +30,7 @@ const RecentsTable = ({ transactions }) => (
         {transactions.length > 0 ? (
           transactions.map((transaction) => (
             <tr key={transaction._id}>
-              <td className="text-gray-800 p-3">{transaction.type}</td>
+              <td className="text-gray-800  p-3">{transaction.type}</td>
               <td className="text-gray-800 p-3">{transaction.title}</td>
               <td className="text-gray-800 p-3">₦{transaction.amount.toLocaleString()}</td>
               <td className="text-gray-800 p-3">{new Date(transaction.date).toLocaleDateString()}</td>
@@ -41,7 +39,7 @@ const RecentsTable = ({ transactions }) => (
           ))
         ) : (
           <tr>
-            <td colSpan="5" className="p-3 text-center">No recent transactions</td>
+            <td colSpan="5" className="p-3 text-center">Loading...</td>
           </tr>
         )}
       </tbody>
@@ -67,7 +65,7 @@ const Info = () => {
     setUsername(storedUsername || 'User');
 
     if (!token || !userId) {
-      toast.error('Authentication details are missing.');
+      console.error('Authentication details are missing.');
       return;
     }
 
@@ -104,11 +102,10 @@ const Info = () => {
 
           updateLineChart(validIncomes, expenses);
         } else {
-          toast.error('No income data available or invalid format.');
+          console.error('No income data available or invalid format.');
         }
       } catch (error) {
         console.error('Error fetching income:', error);
-        toast.error('Error fetching income data.');
       }
     };
 
@@ -142,11 +139,10 @@ const Info = () => {
 
           updateLineChart(incomes, validExpenses);
         } else {
-          toast.error('No expense data available or invalid format.');
+          console.error('No expense data available or invalid format.');
         }
       } catch (error) {
         console.error('Error fetching expense:', error);
-        toast.error('Error fetching expense data.');
       }
     };
 
@@ -217,15 +213,24 @@ const Info = () => {
 
   return (
     <div className='font-manrope'>
-      <ToastContainer />
-      <div className='container mx-auto px-6 py-4'>
-        <h1 className="text-6xl font-bold text-gray-800">
-          Welcome, {username}
-        </h1>
-        <p className="text-gray-600 mt-2 text-xl">
-          From easy money management to financial goals and investments.
+      <div className='container mx-auto py-4'>
+        <div>
+          <h1 className="text-6xl font-bold text-gray-800">
+            Welcome, {username}
+          </h1>
+          <p className="text-gray-600 mt-2 text-xl">
+            From easy money management to financial goals and investments.
+          </p>
+        </div>
+      </div>
+
+      <div className='mt-5'>
+        <h2 className="text-2xl font-semibold text-gray-800 ">Overview</h2>
+        <p className='text-gray-600 mb-5'>
+          A quick glance at your key financial metrics and recent transactions.
         </p>
       </div>
+
 
       <div className="flex container justify-center mx-auto min-w-7xl items-center">
         <div className="bg-gray-100 container mx-auto rounded-md p-10 flex flex-col lg:flex-row">
@@ -288,14 +293,18 @@ const Info = () => {
 
 
 
-            {/* Recents Table */}
-      <h2 className="text-2xl font-semibold text-gray-800  mt-10 mb-5">Recent Transactions</h2>
+      {/* Recents Table */}
+      <h2 className="text-2xl font-semibold text-gray-800  mt-10 ">Recent Transactions</h2>
+      <p className='text-gray-600 mb-5'>
+      View your most recent income and expenses at a glance.
+      </p>
       <RecentsTable transactions={recentTransactions} />
 
 
 
       <div className='container mx-auto min-w-7xl rounded-md my-10'>
-        <h2 className="text-2xl text-gray-800  font-semibold mb-4">Line Chart</h2>
+        <h2 className="text-2xl text-gray-800  font-semibold ">Line Chart</h2>
+        <p className='text-gray-600 mb-5'>Visualize your financial trends over time.</p>
         <div className="flex justify-center rounded-md p-10 bg-gray-100 mx-auto items-center">
           <div className='bg-white rounded-md p-10 '
            style={{ width: '1000px', height: '400px' }}> 

@@ -26,7 +26,7 @@ const Navbar = () => {
     <div className='font-manrope'>
     <div className="sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b lg:border-slate-900/10 dark:border-slate-300/[0.06] bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-800">Logo</h1>
+        <h1 className="text-3xl font-bold text-gray-800">QuantaBudget</h1>
 
         <div className="hidden lg:flex flex-grow justify-start items-center ml-12 font-bold space-x-10">
           <a href="#about" className="text-black hover:text-yellow-400 transition duration-300">About</a>

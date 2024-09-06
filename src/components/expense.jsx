@@ -33,7 +33,6 @@ const Expense = () => {
   }, []);
 
   const fetchExpenseData = async () => {
-    try {
       const token = localStorage.getItem('token');
       const response = await axios.get('https://finaki-backend.onrender.com/api/v1/expense/user', {
         headers: {
@@ -48,12 +47,7 @@ const Expense = () => {
 
       // Update line chart data
       updateLineChart(expenses);
-
-      toast.success('Expense data fetched successfully!');
-    } catch (error) {
-      toast.error('Failed to fetch expense data.');
-      console.error('Error fetching expense data:', error);
-    }
+    
   };
 
   const updateLineChart = (expenses) => {
@@ -128,7 +122,6 @@ const Expense = () => {
       description,
     };
 
-    try {
       const token = localStorage.getItem('token');
       await axios.post('https://finaki-backend.onrender.com/api/v1/expense/create', expenseData, {
         headers: {
@@ -136,16 +129,9 @@ const Expense = () => {
         },
       });
 
-      toast.success('Expense added successfully!');
       fetchExpenseData(); // Refresh the data to reflect changes
       clearFormFields(); // Clear form fields
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to add expense.');
-      console.error('Error adding expense:', error);
-    } finally {
-      setIsLoading(false);
     }
-  };
 
   const clearFormFields = () => {
     setTitle('');
@@ -157,27 +143,17 @@ const Expense = () => {
 
   const handleDelete = async (expenseId) => {
     setDeletingExpenseId(expenseId);
-    try {
       const token = localStorage.getItem('token');
       await axios.delete(`https://finaki-backend.onrender.com/api/v1/expense/${expenseId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      toast.success('Expense deleted successfully!');
       fetchExpenseData(); // Refresh the data to reflect changes
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to delete expense.');
-      console.error('Error deleting expense:', error);
-    } finally {
-      setDeletingExpenseId(null);
-    }
   };
 
   return (
     <div>
-      <ToastContainer />
       <div className='container mx-auto px-6 py-4'>
         <h1 className="text-6xl font-bold text-gray-800">Expenses</h1>
         <p className="text-gray-600 mt-2 text-xl">
@@ -188,7 +164,7 @@ const Expense = () => {
       <div className="flex justify-center m-2 items-center">
         <div className="bg-gray-100 container mx-auto rounded-md p-10 flex flex-col lg:flex-row">
           {/* First Half */}
-          <div className="flex flex-col justify-start w-auto m-5 lg:w-1/2">
+          <div className="flex flex-col justify-start w-full lg:w-1/2 lg:pr-5">
             <div className='bg-red-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-full'>
               <div>
                 <h1 className='font-semibold text-gray-800 text-2xl'>Expenses</h1>
@@ -200,13 +176,19 @@ const Expense = () => {
 
             {/* Line Chart */}
             <div className="bg-white p-5 w-full rounded-xl mb-5">
-              <h2 className="text-2xl text-gray-800 font-semibold mb-5">Expenses Over Time Chart</h2>
+              <h2 className="text-2xl text-gray-800 font-semibold ">Expenses Over Time Chart</h2>
+              <p className='text-gray-800 text-base mb-5'>
+              Visualize your expenses and analyze trends to make informed decisions.
+              </p>
               <Line data={lineChartData} options={lineChartOptions} />
             </div>
 
             {/* Recents Table */}
-            <div className="bg-white p-7 w-full rounded-xl" style={{ maxHeight: '350px', overflowY: 'auto' }}>
-              <h2 className="text-2xl text-gray-800 font-semibold mb-5">Recents</h2>
+            <div className="bg-white p-7 w-full rounded-md" style={{ maxHeight: '350px', overflowY: 'auto' }}>
+              <h2 className="text-2xl text-gray-800 font-semibold">Recents</h2>
+              <p className='text-gray-800 text-base mb-5'>
+                Here are your recent expenses.
+              </p>
               <div className='overflow-y-auto'> 
               <table className="min-w-full bg-white rounded-md">
                 <thead className="sticky top-0 bg-white">
@@ -245,7 +227,7 @@ const Expense = () => {
                     ))
                   ) : (
                     <tr>
-                      <td className="py-2 px-4 border-b border-gray-200" colSpan="4">No expense records found.</td>
+                      <td className="py-2 px-4 border-b border-gray-200" colSpan="4">Loading...</td>
                     </tr>
                   )}
                 </tbody>
@@ -255,8 +237,12 @@ const Expense = () => {
           </div>
 
           {/* Second Half */}
-          <div className="flex flex-col justify-center w-full lg:w-1/2 lg:mt-0 lg:pl-6">
-            <div className="bg-gray-100 pr-5 rounded-md">
+          <div className="flex flex-col justify-center w-full lg:w-1/2 sm:mt-5 lg:mt-0 lg:pl-5">
+            <div className="bg-white p-5 rounded-md">
+              <h2 className="text-2xl text-gray-800 font-semibold ">Record your expenses</h2>
+              <p className='text-gray-800 text-base mb-5'>
+                Easily log your daily expenses to maintain a clear financial overview.
+              </p>
               <p className="text-gray-800 text-base mb-2">Expense Title</p>
               <input
                 type="text"
@@ -294,7 +280,17 @@ const Expense = () => {
                 <option value="Food">Food</option>
                 <option value="Rent">Rent</option>
                 <option value="Utilities">Utilities</option>
-                {/* Add more categories as needed */}
+                <option value="Transportation">Transportation</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Education">Education</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Travel">Travel</option>
+                <option value="Insurance">Insurance</option>
+                <option value="Debt Payments">Debt Payments</option>
+                <option value="Savings">Savings</option>
+                <option value="Gifts">Gifts</option>
+                <option value="Miscellaneous">Miscellaneous</option>
               </select>
 
               <p className="text-gray-800 text-base mb-2">Description</p>
@@ -302,7 +298,7 @@ const Expense = () => {
                 value={description}
                 onChange={handleDescriptionChange}
                 placeholder="Enter a brief description, max 20 characters"
-                className="w-full mb-4 p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full mb-3 p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 style={{ minHeight: '300px' }}
                 maxLength="20"
               >
@@ -312,7 +308,7 @@ const Expense = () => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="text-black bg-yellow-400 hover:bg-yellow-700 font-bold hover:text-black py-2 px-1 rounded-full transition duration-300 mt-6 w-40 lg:w-40 text-center relative"
+                className="text-black bg-yellow-400 hover:bg-yellow-700 font-bold hover:text-black py-2 px-1 rounded-full transition duration-300  w-40 lg:w-40 text-center relative"
                 disabled={isLoading}
               >
                 {isLoading ? (

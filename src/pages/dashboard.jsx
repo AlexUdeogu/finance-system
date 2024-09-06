@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const Dashboard = () => {
   const location = useLocation();
@@ -7,17 +8,68 @@ const Dashboard = () => {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
-    setActiveLink(location.pathname); // Set the active link based on the current path
-    const storedUsername = localStorage.getItem('username'); // Retrieve username from localStorage
-    setUsername(storedUsername || ''); // Set username state
+    setActiveLink(location.pathname);
+    const storedUsername = localStorage.getItem('username');
+    setUsername(storedUsername || '');
   }, [location]);
+
+  const downloadUserHistory = async () => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    if (!token || !userId) {
+      console.error('Authentication details are missing.');
+      return;
+    }
+
+    try {
+      const incomeResponse = await axios.get('https://finaki-backend.onrender.com/api/v1/income/user', {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { userId: userId }
+      });
+
+      const expenseResponse = await axios.get('https://finaki-backend.onrender.com/api/v1/expense/user', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const incomes = incomeResponse.data.Incomes.map(income => ({ ...income, type: 'income' }));
+      const expenses = expenseResponse.data.Expenses.map(expense => ({ ...expense, type: 'expense' }));
+
+      const allTransactions = [...incomes, ...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      const csvContent = [
+        ['Type', 'Title', 'Amount', 'Date', 'Description'],
+        ...allTransactions.map(transaction => [
+          transaction.type,
+          transaction.title,
+          transaction.amount,
+          new Date(transaction.date).toLocaleDateString(),
+          transaction.description || ''
+        ])
+      ].map(row => row.join(',')).join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'user_transaction_history.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    } catch (error) {
+      console.error('Error fetching transaction history:', error);
+    }
+  };
 
   return (
     <div className='font-manrope'>
       <div className="sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b lg:border-slate-900/10 dark:border-slate-300/[0.06] bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <Link to="/">
-            <h1 className="text-3xl font-bold text-gray-800">Logo</h1>
+            <h1 className="text-3xl font-bold text-gray-800">QuantaBudget</h1>
           </Link>
 
           <div className="hidden lg:flex flex-grow justify-start items-center ml-12 font-bold space-x-10">
@@ -39,16 +91,16 @@ const Dashboard = () => {
             >
               Expenses
             </Link>
-            <Link 
-              to="/dashboard/settings" 
-              className={`text-gray-800  transition duration-300 ${activeLink === '/dashboard/settings' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
-            >
-              Settings
-            </Link>
           </div>
 
           <div className="flex items-center space-x-4">
             <p className='font-semibold text-gray-800 '>Hello, {username || 'User'}</p>  
+            <button
+              onClick={downloadUserHistory}
+              className="text-black bg-yellow-400 hover:bg-black font-bold hover:text-white py-2 px-4 rounded-full transition duration-300 hidden lg:block"
+            >
+              Download History
+            </button>
             <Link 
               to="/login"
               className="text-white bg-black hover:bg-yellow-400 font-bold hover:text-black py-2 px-4 rounded-full transition duration-300 hidden lg:block"
