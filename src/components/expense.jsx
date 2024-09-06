@@ -200,7 +200,7 @@ const Expense = () => {
 
             {/* Line Chart */}
             <div className="bg-white p-5 w-full rounded-xl mb-5">
-              <h2 className="text-2xl text-gray-800 font-semibold mb-5">Expenses Over Time</h2>
+              <h2 className="text-2xl text-gray-800 font-semibold mb-5">Expenses Over Time Chart</h2>
               <Line data={lineChartData} options={lineChartOptions} />
             </div>
 
