@@ -48,7 +48,7 @@ const Signup = () => {
       <div className="sticky top-0 bg-white z-20">
         <div className="container px-6 py-4 flex items-center justify-between">
           <Link to="/">
-            <h1 className="text-3xl ml-16 font-bold text-gray-800">Logo</h1>
+            <h1 className="text-3xl ml-16 font-bold text-gray-800">QuantaBudget</h1>
           </Link>
           <div className="flex items-center space-x-4">
             <Link
