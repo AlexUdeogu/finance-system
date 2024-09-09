@@ -314,7 +314,7 @@ const Info = () => {
           {/* Second Half */}
           <div className="flex flex-col justify-center items-center w-full lg:w-1/2">
             {/* Doughnut Chart */}
-            <div className='flex justify-center items-center w-full' style={{ height: '300px', maxWidth: '400px' }}>
+            <div className='flex justify-center items-center w-full' style={{ height: '500px', maxWidth: '600px' }}>
               <Doughnut 
                 data={data} 
                 options={options} 
