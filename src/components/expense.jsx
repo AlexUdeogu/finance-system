@@ -153,97 +153,99 @@ const Expense = () => {
   };
 
   return (
-    <div>
-      <div className='container mx-auto px-6 py-4'>
-        <h1 className="text-6xl font-bold text-gray-800">Expenses</h1>
-        <p className="text-gray-600 mt-2 text-xl">
+    <div className="min-h-screen bg-gray-100">
+      <div className='container mx-auto px-4 sm:px-6 py-4'>
+        <h1 className="text-4xl sm:text-6xl font-bold text-gray-800">Expenses</h1>
+        <p className="text-gray-600 mt-2 text-lg sm:text-xl">
           Manage your expenses and track your financial outflow.
         </p>
       </div>
 
       <div className="flex justify-center m-2 items-center">
-        <div className="bg-gray-100 container mx-auto rounded-md p-10 flex flex-col lg:flex-row">
+        <div className="bg-gray-100 container mx-auto rounded-md p-4 sm:p-6 md:p-10 flex flex-col lg:flex-row">
           {/* First Half */}
-          <div className="flex flex-col justify-start w-full lg:w-1/2 lg:pr-5">
-            <div className='bg-red-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-full'>
+          <div className="flex flex-col justify-start w-full lg:w-1/2 lg:pr-5 mb-6 lg:mb-0">
+            <div className='bg-red-200 mb-5 p-4 sm:p-5 rounded-md w-full'>
               <div>
-                <h1 className='font-semibold text-gray-800 text-2xl'>Expenses</h1>
+                <h1 className='font-semibold text-gray-800 text-xl sm:text-2xl'>Expenses</h1>
               </div>
               <div>
-                <p className='font-medium text-red-500 text-6xl'>₦{totalExpense.toLocaleString()}</p>
+                <p className='font-medium text-red-500 text-4xl sm:text-6xl'>₦{totalExpense.toLocaleString()}</p>
               </div>
             </div>
 
             {/* Line Chart */}
-            <div className="bg-white p-5 w-full rounded-xl mb-5">
-              <h2 className="text-2xl text-gray-800 font-semibold ">Expenses Over Time Chart</h2>
-              <p className='text-gray-800 text-base mb-5'>
-              Visualize your expenses and analyze trends to make informed decisions.
+            <div className="bg-white p-4 sm:p-5 w-full rounded-xl mb-5">
+              <h2 className="text-xl sm:text-2xl text-gray-800 font-semibold">Expenses Over Time Chart</h2>
+              <p className='text-gray-800 text-sm sm:text-base mb-5'>
+                Visualize your expenses and analyze trends to make informed decisions.
               </p>
-              <Line data={lineChartData} options={lineChartOptions} />
+              <div className="h-64 sm:h-80">
+                <Line data={lineChartData} options={lineChartOptions} />
+              </div>
             </div>
 
             {/* Recents Table */}
-            <div className="bg-white p-7 w-full rounded-md" style={{ maxHeight: '350px', overflowY: 'auto' }}>
-              <h2 className="text-2xl text-gray-800 font-semibold">Recents</h2>
-              <p className='text-gray-800 text-base mb-5'>
+            <div className="bg-white p-4 sm:p-7 w-full rounded-md" style={{ maxHeight: '350px', overflowY: 'auto' }}>
+              <h2 className="text-xl sm:text-2xl text-gray-800 font-semibold">Recents</h2>
+              <p className='text-gray-800 text-sm sm:text-base mb-5'>
                 Here are your recent expenses.
               </p>
-              <div className='overflow-y-auto'> 
-              <table className="min-w-full bg-white rounded-md">
-                <thead className="sticky top-0 bg-white">
-                  <tr>
-                    <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Title</th>
-                    <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Amount</th>
-                    <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentExpenses.length > 0 ? (
-                    recentExpenses.map((expense) => (
-                      <tr key={expense._id}>
-                        <td className="py-2 px-4 text-gray-800 border-b whitespace-nowrap border-gray-200">{expense.title}</td>
-                        <td className="py-2 px-4 text-gray-800 border-b border-gray-200">₦{expense.amount.toLocaleString()}</td>
-                        <td className="py-2 px-4 text-gray-800  border-b border-gray-200">{new Date(expense.date).toLocaleDateString()}</td>
-                        <td>
-                          <button
-                            onClick={() => handleDelete(expense._id)}
-                            className="text-red-500 hover:text-white bg-red-200 hover:bg-red-700 font-bold mx-3 py-1 px-3 rounded-full transition duration-300 relative"
-                            disabled={deletingExpenseId === expense._id}
-                          >
-                            {deletingExpenseId === expense._id ? (
-                              <>
-                                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                                  <div className="w-4 h-4 border-t-2 border-b-2 border-red-500 rounded-full animate-spin"></div>
-                                </span>
-                                <span className="opacity-0">Delete</span>
-                              </>
-                            ) : (
-                              'Delete'
-                            )}
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
+              <div className='overflow-x-auto'>
+                <table className="min-w-full bg-white rounded-md">
+                  <thead className="sticky top-0 bg-white">
                     <tr>
-                      <td className="py-2 px-4 border-b border-gray-200" colSpan="4">Loading...</td>
+                      <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Title</th>
+                      <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Amount</th>
+                      <th className="py-2 px-4 text-gray-800 font-semibold border-b border-gray-200 text-left">Date</th>
                     </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {recentExpenses.length > 0 ? (
+                      recentExpenses.map((expense) => (
+                        <tr key={expense._id}>
+                          <td className="py-2 px-4 text-gray-800 border-b whitespace-nowrap border-gray-200">{expense.title}</td>
+                          <td className="py-2 px-4 text-gray-800 border-b border-gray-200">₦{expense.amount.toLocaleString()}</td>
+                          <td className="py-2 px-4 text-gray-800  border-b border-gray-200">{new Date(expense.date).toLocaleDateString()}</td>
+                          <td>
+                            <button
+                              onClick={() => handleDelete(expense._id)}
+                              className="text-red-500 hover:text-white bg-red-200 hover:bg-red-700 font-bold mx-3 py-1 px-3 rounded-full transition duration-300 relative"
+                              disabled={deletingExpenseId === expense._id}
+                            >
+                              {deletingExpenseId === expense._id ? (
+                                <>
+                                  <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                                    <div className="w-4 h-4 border-t-2 border-b-2 border-red-500 rounded-full animate-spin"></div>
+                                  </span>
+                                  <span className="opacity-0">Delete</span>
+                                </>
+                              ) : (
+                                'Delete'
+                              )}
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td className="py-2 px-4 border-b border-gray-200" colSpan="4">Loading...</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
 
           {/* Second Half */}
-          <div className="flex flex-col justify-center w-full lg:w-1/2 sm:mt-5 lg:mt-0 lg:pl-5">
-            <div className="bg-white p-5 rounded-md">
-              <h2 className="text-2xl text-gray-800 font-semibold ">Record your expenses</h2>
-              <p className='text-gray-800 text-base mb-5'>
+          <div className="flex flex-col justify-center w-full lg:w-1/2 mt-6 lg:mt-0 lg:pl-5">
+            <div className="bg-white p-4 sm:p-5 rounded-md">
+              <h2 className="text-xl sm:text-2xl text-gray-800 font-semibold">Record your expenses</h2>
+              <p className='text-gray-800 text-sm sm:text-base mb-5'>
                 Easily log your daily expenses to maintain a clear financial overview.
               </p>
-              <p className="text-gray-800 text-base mb-2">Expense Title</p>
+              <p className="text-gray-800 text-sm sm:text-base mb-2">Expense Title</p>
               <input
                 type="text"
                 value={title}
@@ -251,7 +253,7 @@ const Expense = () => {
                 placeholder="Enter the title"
                 className="w-full mb-4 p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <p className="text-gray-800 text-base mb-2">Expense Amount</p>
+              <p className="text-gray-800 text-sm sm:text-base mb-2">Expense Amount</p>
               <input
                 type="number"
                 value={amount}
@@ -261,7 +263,7 @@ const Expense = () => {
               />
 
               {/* Date Input */}
-              <p className="text-gray-800 text-base mb-2">Date</p>
+              <p className="text-gray-800 text-sm sm:text-base mb-2">Date</p>
               <input
                 type="date"
                 value={selectedDate}
@@ -270,7 +272,7 @@ const Expense = () => {
               />
 
               {/* Dropdown Menu */}
-              <p className="text-gray-800 text-base mb-2">Select Category</p>
+              <p className="text-gray-800 text-sm sm:text-base mb-2">Select Category</p>
               <select
                 value={selectedOption}
                 onChange={handleOptionChange}
@@ -293,7 +295,7 @@ const Expense = () => {
                 <option value="Miscellaneous">Miscellaneous</option>
               </select>
 
-              <p className="text-gray-800 text-base mb-2">Description</p>
+              <p className="text-gray-800 text-sm sm:text-base mb-2">Description</p>
               <textarea
                 value={description}
                 onChange={handleDescriptionChange}
@@ -308,7 +310,7 @@ const Expense = () => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="text-black bg-yellow-400 hover:bg-yellow-700 font-bold hover:text-black py-2 px-1 rounded-full transition duration-300  w-40 lg:w-40 text-center relative"
+                className="text-black bg-yellow-400 hover:bg-yellow-700 font-bold hover:text-black py-2 px-4 rounded-full transition duration-300 w-full sm:w-auto text-center relative"
                 disabled={isLoading}
               >
                 {isLoading ? (

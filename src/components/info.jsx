@@ -15,26 +15,26 @@ import {
 ChartJS.register(ArcElement, Tooltip, Legend, LineElement, PointElement, LinearScale, CategoryScale);
 
 const RecentsTable = ({ transactions }) => (
-  <div className="bg-gray-100 mb-10 rounded-md p-10 w-full" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-    <table className="w-full rounded-md" >
+  <div className="bg-gray-100 mb-10 rounded-md p-4 sm:p-10 w-full overflow-x-auto">
+    <table className="w-full rounded-md">
       <thead>
-        <tr className="bg-white ">
-          <th className="p-3 text-gray-800  text-left">Type</th>
-          <th className="p-3 text-gray-800  text-left">Title</th>
-          <th className="p-3 text-gray-800  text-left">Amount</th>
-          <th className="p-3 text-gray-800  text-left">Date</th>
-          <th className="p-3 text-gray-800  text-left">Description</th>
+        <tr className="bg-white">
+          <th className="p-2 sm:p-3 text-gray-800 text-left">Type</th>
+          <th className="p-2 sm:p-3 text-gray-800 text-left">Title</th>
+          <th className="p-2 sm:p-3 text-gray-800 text-left">Amount</th>
+          <th className="p-2 sm:p-3 text-gray-800 text-left">Date</th>
+          <th className="p-2 sm:p-3 text-gray-800 text-left">Description</th>
         </tr>
       </thead>
       <tbody>
         {transactions.length > 0 ? (
           transactions.map((transaction) => (
             <tr key={transaction._id}>
-              <td className="text-gray-800  p-3">{transaction.type}</td>
-              <td className="text-gray-800 p-3">{transaction.title}</td>
-              <td className="text-gray-800 p-3">₦{transaction.amount.toLocaleString()}</td>
-              <td className="text-gray-800 p-3">{new Date(transaction.date).toLocaleDateString()}</td>
-              <td className="text-gray-800 p-3">{transaction.description}</td>
+              <td className="text-gray-800 p-2 sm:p-3">{transaction.type}</td>
+              <td className="text-gray-800 p-2 sm:p-3">{transaction.title}</td>
+              <td className="text-gray-800 p-2 sm:p-3">₦{transaction.amount.toLocaleString()}</td>
+              <td className="text-gray-800 p-2 sm:p-3">{new Date(transaction.date).toLocaleDateString()}</td>
+              <td className="text-gray-800 p-2 sm:p-3">{transaction.description}</td>
             </tr>
           ))
         ) : (
@@ -56,6 +56,7 @@ const Info = () => {
   const [lineChartData, setLineChartData] = useState({ labels: [], datasets: [] });
   const [recentTransactions, setRecentTransactions] = useState([]);
   const [username, setUsername] = useState('');
+  const [allTransactions, setAllTransactions] = useState([]);
 
   useEffect(() => {
     // Retrieve token, userId, and username from local storage
@@ -187,8 +188,30 @@ const Info = () => {
       });
     };
 
+    const fetchAllTransactions = async () => {
+      try {
+        const incomeResponse = await axios.get('https://finaki-backend.onrender.com/api/v1/income/user', {
+          headers: { Authorization: `Bearer ${token}` },
+          params: { userId: userId }
+        });
+
+        const expenseResponse = await axios.get('https://finaki-backend.onrender.com/api/v1/expense/user', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const incomes = incomeResponse.data.Incomes.map(income => ({ ...income, type: 'income' }));
+        const expenses = expenseResponse.data.Expenses.map(expense => ({ ...expense, type: 'expense' }));
+
+        const allTransactions = [...incomes, ...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+        setAllTransactions(allTransactions);
+      } catch (error) {
+        console.error('Error fetching all transactions:', error);
+      }
+    };
+
     fetchIncomes();
     fetchExpenses();
+    fetchAllTransactions();
   }, []);
 
   useEffect(() => {
@@ -211,103 +234,110 @@ const Info = () => {
     responsive: true,
   };
 
+  const downloadUserHistory = () => {
+    const csvContent = [
+      ['Type', 'Title', 'Amount', 'Date', 'Description'],
+      ...allTransactions.map(transaction => [
+        transaction.type,
+        transaction.title,
+        transaction.amount,
+        new Date(transaction.date).toLocaleDateString(),
+        transaction.description || ''
+      ])
+    ].map(row => row.join(',')).join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'user_transaction_history.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <div className='font-manrope'>
-      <div className='container mx-auto py-4'>
+      <div className='container mx-auto py-4 px-4 sm:px-6'>
         <div>
-          <h1 className="text-6xl font-bold text-gray-800">
+          <h1 className="text-4xl sm:text-6xl font-bold text-gray-800">
             Welcome, {username}
           </h1>
-          <p className="text-gray-600 mt-2 text-xl">
+          <p className="text-gray-600 mt-2 text-base sm:text-xl">
             From easy money management to financial goals and investments.
           </p>
         </div>
       </div>
 
-      <div className='mt-5'>
-        <h2 className="text-2xl font-semibold text-gray-800 ">Overview</h2>
+      <div className='mt-5 px-4 sm:px-6'>
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 ">Overview</h2>
         <p className='text-gray-600 mb-5'>
           A quick glance at your key financial metrics and recent transactions.
         </p>
       </div>
 
-
-      <div className="flex container justify-center mx-auto min-w-7xl items-center">
-        <div className="bg-gray-100 container mx-auto rounded-md p-10 flex flex-col lg:flex-row">
+      <div className="flex flex-col lg:flex-row container justify-center mx-auto min-w-full lg:min-w-7xl items-stretch px-4 sm:px-6">
+        <div className="bg-gray-100 container mx-auto rounded-md p-6 sm:p-10 flex flex-col lg:flex-row">
           {/* First Half */}
-          <div className="flex flex-col justify-start w-full lg:w-1/2 m-5">
-            <div className='bg-red-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-full'>
-              <div>
-                <h1 className='font-semibold text-gray-800 text-2xl'>
-                  Total Expense
-                </h1>
-              </div>
-              <div>
-                <p className='font-medium text-red-500 text-6xl'>
-                  ₦{totalExpense.toLocaleString()}
-                </p>
-              </div>
+          <div className="flex flex-col justify-start w-full lg:w-1/2 lg:mr-5 mb-5 lg:mb-0">
+            <div className='bg-red-200 mb-5 p-4 sm:p-5 rounded-md w-full'>
+              <h1 className='font-semibold text-gray-800 text-xl sm:text-2xl mb-2'>
+                Total Expense
+              </h1>
+              <p className='font-medium text-red-500 text-3xl sm:text-4xl lg:text-5xl'>
+                ₦{totalExpense.toLocaleString()}
+              </p>
             </div>
 
-            <div className='bg-green-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-full'>
-              <div>
-                <h1 className='font-semibold text-gray-800 text-2xl'>
-                  Total Income
-                </h1>
-              </div>
-              <div>
-                <p className='font-medium text-green-500 text-6xl'>
-                  ₦{totalIncome.toLocaleString()}
-                </p>
-              </div>
+            <div className='bg-green-200 mb-5 p-4 sm:p-5 rounded-md w-full'>
+              <h1 className='font-semibold text-gray-800 text-xl sm:text-2xl mb-2'>
+                Total Income
+              </h1>
+              <p className='font-medium text-green-500 text-3xl sm:text-4xl lg:text-5xl'>
+                ₦{totalIncome.toLocaleString()}
+              </p>
             </div>
 
-            <div className='bg-gray-300 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-full'>
-              <div>
-                <h1 className='font-semibold text-gray-800 text-2xl'>
-                  Balance
-                </h1>
-              </div>
-              <div>
-                <p className='font-medium text-gray-700 text-6xl'>
-                  ₦{totalBalance.toLocaleString()}
-                </p>
-              </div>
+            <div className='bg-gray-300 mb-5 p-4 sm:p-5 rounded-md w-full'>
+              <h1 className='font-semibold text-gray-800 text-xl sm:text-2xl mb-2'>
+                Balance
+              </h1>
+              <p className='font-medium text-gray-700 text-3xl sm:text-4xl lg:text-5xl'>
+                ₦{totalBalance.toLocaleString()}
+              </p>
             </div>
           </div>
 
           {/* Second Half */}
-          <div className="flex flex-col  justify-center items-center w-full lg:w-1/2">
+          <div className="flex flex-col justify-center items-center w-full lg:w-1/2">
             {/* Doughnut Chart */}
-            <div className='flex justify-center items-center w-full' style={{ width: '500px', height: '500px' }}>
+            <div className='flex justify-center items-center w-full' style={{ height: '300px', maxWidth: '400px' }}>
               <Doughnut 
                 data={data} 
                 options={options} 
-                width={400}  // Adjust this value for width
-                height={400} // Adjust this value for height
               />
             </div>
           </div>
         </div>
       </div>
 
-
-
       {/* Recents Table */}
-      <h2 className="text-2xl font-semibold text-gray-800  mt-10 ">Recent Transactions</h2>
-      <p className='text-gray-600 mb-5'>
-      View your most recent income and expenses at a glance.
-      </p>
+      <div className='px-4 sm:px-6'>
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800  mt-10 ">Recent Transactions</h2>
+        <p className='text-gray-600 mb-5'>
+          View your most recent income and expenses at a glance.
+        </p>
+      </div>
       <RecentsTable transactions={recentTransactions} />
 
-
-
-      <div className='container mx-auto min-w-7xl rounded-md my-10'>
-        <h2 className="text-2xl text-gray-800  font-semibold ">Line Chart</h2>
+      <div className='container mx-auto min-w-full lg:min-w-7xl rounded-md my-10 px-4 sm:px-6'>
+        <h2 className="text-xl sm:text-2xl text-gray-800  font-semibold ">Line Chart</h2>
         <p className='text-gray-600 mb-5'>Visualize your financial trends over time.</p>
-        <div className="flex justify-center rounded-md p-10 bg-gray-100 mx-auto items-center">
-          <div className='bg-white rounded-md p-10 '
-           style={{ width: '1000px', height: '400px' }}> 
+        <div className="flex justify-center rounded-md p-4 sm:p-10 bg-gray-100 mx-auto items-center">
+          <div className='bg-white rounded-md p-4 sm:p-10 w-full' style={{ height: '400px' }}> 
             <Line 
               data={lineChartData} 
               options={{ 
@@ -318,9 +348,6 @@ const Info = () => {
           </div>
         </div>
       </div>
-
-
-
     </div>
   );
 };
