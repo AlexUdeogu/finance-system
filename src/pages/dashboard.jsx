@@ -18,31 +18,20 @@ const Dashboard = () => {
     const checkUserData = async () => {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
-
-      if (!token || !userId) {
-        console.error('Authentication details are missing.');
-        return;
-      }
-
-      try {
-        const [incomeResponse, expenseResponse] = await Promise.all([
-          axios.get('https://finaki-backend.onrender.com/api/v1/income/user', {
-            headers: { Authorization: `Bearer ${token}` },
-            params: { userId: userId }
+      const [incomeResponse, expenseResponse] = await Promise.all([
+        axios.get('https://finaki-backend.onrender.com/api/v1/income/user', {
+          headers: { Authorization: `Bearer ${token}` },
+          params: { userId: userId }
           }),
           axios.get('https://finaki-backend.onrender.com/api/v1/expense/user', {
             headers: { Authorization: `Bearer ${token}` },
           })
         ]);
 
-        const hasIncomes = incomeResponse.data.Incomes.length > 0;
-        const hasExpenses = expenseResponse.data.Expenses.length > 0;
+      const hasIncomes = incomeResponse.data.Incomes.length > 0;
+      const hasExpenses = expenseResponse.data.Expenses.length > 0;
 
-        setHasData(hasIncomes || hasExpenses);
-      } catch (error) {
-        console.error('Error checking user data:', error);
-        setHasData(false);
-      }
+      setHasData(hasIncomes || hasExpenses);
     };
 
     checkUserData();
@@ -51,51 +40,41 @@ const Dashboard = () => {
   const downloadUserHistory = async () => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
+    const incomeResponse = await axios.get('https://finaki-backend.onrender.com/api/v1/income/user', {
+      headers: { Authorization: `Bearer ${token}` },
+      params: { userId: userId }
+    });
 
-    if (!token || !userId) {
-      console.error('Authentication details are missing.');
-      return;
-    }
+    const expenseResponse = await axios.get('https://finaki-backend.onrender.com/api/v1/expense/user', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-    try {
-      const incomeResponse = await axios.get('https://finaki-backend.onrender.com/api/v1/income/user', {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { userId: userId }
-      });
+    const incomes = incomeResponse.data.Incomes.map(income => ({ ...income, type: 'income' }));
+    const expenses = expenseResponse.data.Expenses.map(expense => ({ ...expense, type: 'expense' }));
 
-      const expenseResponse = await axios.get('https://finaki-backend.onrender.com/api/v1/expense/user', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+    const allTransactions = [...incomes, ...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
 
-      const incomes = incomeResponse.data.Incomes.map(income => ({ ...income, type: 'income' }));
-      const expenses = expenseResponse.data.Expenses.map(expense => ({ ...expense, type: 'expense' }));
+    const csvContent = [
+      ['Type', 'Title', 'Amount', 'Date', 'Description'],
+      ...allTransactions.map(transaction => [
+        transaction.type,
+        transaction.title,
+        transaction.amount,
+        new Date(transaction.date).toLocaleDateString(),
+        transaction.description || ''
+      ])
+    ].map(row => row.join(',')).join('\n');
 
-      const allTransactions = [...incomes, ...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
-
-      const csvContent = [
-        ['Type', 'Title', 'Amount', 'Date', 'Description'],
-        ...allTransactions.map(transaction => [
-          transaction.type,
-          transaction.title,
-          transaction.amount,
-          new Date(transaction.date).toLocaleDateString(),
-          transaction.description || ''
-        ])
-      ].map(row => row.join(',')).join('\n');
-
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      if (link.download !== undefined) {
-        const url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', 'user_transaction_history.csv');
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    } catch (error) {
-      console.error('Error fetching transaction history:', error);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'user_transaction_history.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
 

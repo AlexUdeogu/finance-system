@@ -54,12 +54,6 @@ const Navbar = () => {
           <p className="text-lg  text-gray-600 text-center lg:text-left mb-3">
             From seamless money management to achieving <br className="hidden sm:block" /> financial goals and making smart investments.
           </p>
-          <Link 
-              to="/signup"
-              className="text-white bg-black hover:bg-yellow-400 font-bold hover:text-black py-2 px-3 sm:px-4 rounded-full transition duration-300 text-sm sm:text-base"
-            >
-              Open Account
-            </Link>
         </div>
       </div>
 

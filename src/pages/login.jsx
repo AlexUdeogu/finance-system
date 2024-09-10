@@ -23,23 +23,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    try {
       const response = await axios.post('https://finaki-backend.onrender.com/api/v1/auth/login', formData);
       
-      // Log the full response data to understand its structure
-      console.log('Full response data:', response.data);
-
       // Destructure the response data
       const { success, message, user } = response.data;
 
       if (success) {
         const { token, _id, username } = user; // Extract username along with token and user ID
-
-        // Log the token, user ID, and username to the console
-        console.log('Token:', token);
-        console.log('User ID:', _id);
-        console.log('Username:', username);
-
         // Store token, user ID, and username in localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('userId', _id); // Store userId as _id
@@ -52,12 +42,7 @@ const Login = () => {
       } else {
         toast.error(message);
       }
-    } catch (error) {
-      console.error('Login error:', error); // Log error details
-      toast.error(error.response?.data?.message || 'Login failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+
   };
 
   return (

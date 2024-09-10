@@ -39,7 +39,6 @@ const Income = () => {
   }, []);
 
   const fetchIncomeData = async () => {
-    try {
       const token = localStorage.getItem('token');
       const response = await axios.get('https://finaki-backend.onrender.com/api/v1/income/user', {
         headers: {
@@ -53,9 +52,6 @@ const Income = () => {
       setRecentIncomes(incomes);
 
       updateLineChart(incomes);
-    } catch (error) {
-      console.error('Error fetching income data:', error);
-    }
   };
 
   const updateLineChart = (incomes) => {
@@ -116,7 +112,7 @@ const Income = () => {
     setIsLoading(true);
 
     if (!title || !amount || !selectedOption || !selectedDate || !description) {
-      console.error('All fields are required!');
+      toast.error('All fields are required!');
       setIsLoading(false);
       return;
     }
@@ -130,7 +126,6 @@ const Income = () => {
       description,
     };
 
-    try {
       const token = localStorage.getItem('token');
       await axios.post('https://finaki-backend.onrender.com/api/v1/income/create', incomeData, {
         headers: {
@@ -140,11 +135,6 @@ const Income = () => {
 
       fetchIncomeData();
       clearFormFields();
-    } catch (error) {
-      console.error('Error adding income:', error);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   const clearFormFields = () => {
@@ -157,20 +147,13 @@ const Income = () => {
 
   const handleDelete = async (incomeId) => {
     setDeletingIncomeId(incomeId);
-    try {
       const token = localStorage.getItem('token');
       await axios.delete(`https://finaki-backend.onrender.com/api/v1/income/${incomeId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
       fetchIncomeData();
-    } catch (error) {
-      console.error('Error deleting income:', error);
-    } finally {
-      setDeletingIncomeId(null);
-    }
   };
 
   return (

@@ -59,19 +59,13 @@ const Info = () => {
   const [allTransactions, setAllTransactions] = useState([]);
 
   useEffect(() => {
-    // Retrieve token, userId, and username from local storage
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     const storedUsername = localStorage.getItem('username');
     setUsername(storedUsername || 'User');
 
-    if (!token || !userId) {
-      console.error('Authentication details are missing.');
-      return;
-    }
 
     const fetchIncomes = async () => {
-      try {
         const response = await axios.get('https://finaki-backend.onrender.com/api/v1/income/user', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -81,10 +75,8 @@ const Info = () => {
           }
         });
 
-        console.log('Incomes response:', response.data);
         if (response.data.success && Array.isArray(response.data.Incomes) && response.data.Incomes.length > 0) {
           const validIncomes = response.data.Incomes.filter(item => typeof item.amount === 'number');
-          console.log('Valid incomes:', validIncomes);
           setIncomes(validIncomes);
           const total = validIncomes.reduce((acc, income) => acc + income.amount, 0);
           setTotalIncome(total);
@@ -102,26 +94,18 @@ const Info = () => {
           ]);
 
           updateLineChart(validIncomes, expenses);
-        } else {
-          console.error('No income data available or invalid format.');
         }
-      } catch (error) {
-        console.error('Error fetching income:', error);
-      }
     };
 
     const fetchExpenses = async () => {
-      try {
         const response = await axios.get('https://finaki-backend.onrender.com/api/v1/expense/user', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        console.log('Expenses response:', response.data);
         if (response.data.success && Array.isArray(response.data.Expenses) && response.data.Expenses.length > 0) {
           const validExpenses = response.data.Expenses.filter(item => typeof item.amount === 'number');
-          console.log('Valid expenses:', validExpenses);
           setExpenses(validExpenses);
           const total = validExpenses.reduce((acc, expense) => acc + expense.amount, 0);
           setTotalExpense(total);
@@ -137,14 +121,8 @@ const Info = () => {
               description: expense.description || 'No description' // Add description
             }))
           ]);
-
           updateLineChart(incomes, validExpenses);
-        } else {
-          console.error('No expense data available or invalid format.');
         }
-      } catch (error) {
-        console.error('Error fetching expense:', error);
-      }
     };
 
     const updateLineChart = (incomes, expenses) => {
@@ -189,7 +167,6 @@ const Info = () => {
     };
 
     const fetchAllTransactions = async () => {
-      try {
         const incomeResponse = await axios.get('https://finaki-backend.onrender.com/api/v1/income/user', {
           headers: { Authorization: `Bearer ${token}` },
           params: { userId: userId }
@@ -204,9 +181,6 @@ const Info = () => {
 
         const allTransactions = [...incomes, ...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
         setAllTransactions(allTransactions);
-      } catch (error) {
-        console.error('Error fetching all transactions:', error);
-      }
     };
 
     fetchIncomes();
