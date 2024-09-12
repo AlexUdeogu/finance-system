@@ -91,26 +91,27 @@ const Dashboard = () => {
             <h1 className="text-3xl font-bold text-gray-800">QuantaBudget</h1>
           </Link>
 
-          {/* Dropdown for small screens */}
-          <div className="lg:hidden">
+          {/* Toggle button for small screens */}
+          <div className="flex items-center lg:hidden ml-auto">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-800 focus:outline-none">
               ☰
             </button>
-            {isMenuOpen && (
-              <div className="absolute bg-white shadow-lg rounded-md mt-2">
-                <Link to="/dashboard/info" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
-                  Dashboard
-                </Link>
-                <Link to="/dashboard/income" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
-                  Incomes
-                </Link>
-                <Link to="/dashboard/expense" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
-                  Expenses
-                </Link>
-              </div>
-            )}
           </div>
 
+          {/* Navigation links for small screens */}
+          <div className={`absolute left-0 top-1 bg-white shadow-lg rounded-md mt-3 w-full transition-all duration-300 ${isMenuOpen ? 'block' : 'hidden'} lg:hidden`}>
+            <Link to="/dashboard/info" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
+              Dashboard
+            </Link>
+            <Link to="/dashboard/income" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
+              Incomes
+            </Link>
+            <Link to="/dashboard/expense" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
+              Expenses
+            </Link>
+          </div>
+
+          {/* Navigation links for larger screens */}
           <div className="hidden lg:flex flex-grow justify-start items-center ml-12 font-bold space-x-10">
             <Link 
               to="/dashboard/info" 
@@ -133,7 +134,8 @@ const Dashboard = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <p className='font-semibold text-gray-800 truncate w-32' title={username || 'User'}>
+            {/* Hide the username on mobile */}
+            <p className='font-semibold text-gray-800 hidden lg:block' title={username || 'User'}>
               Hello, {username || 'User'}
             </p>  
             <button
