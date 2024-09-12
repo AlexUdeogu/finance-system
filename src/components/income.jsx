@@ -113,7 +113,7 @@ const Income = () => {
 
     if (!title || !amount || !selectedOption || !selectedDate || !description) {
       toast.error('All fields are required!');
-      setIsLoading(false);
+      setIsLoading(false); // Stop loading if validation fails
       return;
     }
 
@@ -126,15 +126,16 @@ const Income = () => {
       description,
     };
 
-      const token = localStorage.getItem('token');
-      await axios.post('https://finaki-backend.onrender.com/api/v1/income/create', incomeData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const token = localStorage.getItem('token');
+    await axios.post('https://finaki-backend.onrender.com/api/v1/income/create', incomeData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      fetchIncomeData();
-      clearFormFields();
+    fetchIncomeData();
+    clearFormFields();
+    setIsLoading(false); // Stop loading after successful submission
   };
 
   const clearFormFields = () => {
@@ -241,7 +242,7 @@ const Income = () => {
           </div>
 
           {/* Second Half */}
-          <div className="flex flex-col justify-center w-full lg:w-1/2 sm:mt-5 lg:mt-0 lg:pl-5">
+          <div className="flex flex-col justify-center w-full sm:w-3/4 lg:w-1/3 lg:pl-5">
             <div className="bg-white p-5 rounded-md">
               <h2 className="text-2xl text-gray-800 font-semibold">Record your income</h2>
               <p className='text-gray-800 text-base mb-5'>

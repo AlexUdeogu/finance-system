@@ -109,7 +109,7 @@ const Expense = () => {
 
     if (!title || !amount || !selectedOption || !selectedDate || !description) {
       toast.error('All fields are required!');
-      setIsLoading(false);
+      setIsLoading(false); // Stop loading if validation fails
       return;
     }
 
@@ -122,16 +122,17 @@ const Expense = () => {
       description,
     };
 
-      const token = localStorage.getItem('token');
-      await axios.post('https://finaki-backend.onrender.com/api/v1/expense/create', expenseData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const token = localStorage.getItem('token');
+    await axios.post('https://finaki-backend.onrender.com/api/v1/expense/create', expenseData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      fetchExpenseData(); // Refresh the data to reflect changes
-      clearFormFields(); // Clear form fields
-    }
+    fetchExpenseData(); // Refresh the data to reflect changes
+    clearFormFields(); // Clear form fields
+    setIsLoading(false); // Stop loading after successful submission
+  };
 
   const clearFormFields = () => {
     setTitle('');
