@@ -166,20 +166,20 @@ const Income = () => {
       </div>
 
       <div className="flex justify-center m-2 items-center">
-        <div className="bg-gray-100 container mx-auto rounded-md p-10 flex flex-col lg:flex-row">
+        <div className="bg-gray-100 container mx-auto rounded-md p-5 sm:p-10 flex flex-col lg:flex-row justify-between w-full">
           {/* First Half */}
-          <div className="flex flex-col justify-start w-full lg:w-1/2 lg:pr-5">
+          <div className="flex flex-col justify-start w-full sm:w-3/4 lg:w-2/3 lg:pr-5 mb-5 lg:mb-0">
             <div className='bg-green-200 mb-5 pt-5 pl-5 pb-3 pr-15 rounded-md w-full'>
               <div>
                 <h1 className='font-semibold text-gray-800 text-2xl'>Income</h1>
               </div>
               <div>
-                <p className='font-medium text-green-500 text-6xl'>₦{totalIncome.toLocaleString()}</p>
+                <p className='font-medium text-green-500 text-4xl md:text-6xl'>₦{totalIncome.toLocaleString()}</p>
               </div>
             </div>
 
             {/* Line Chart */}
-            <div className="bg-white p-5 w-full rounded-xl mb-5">
+            <div className="bg-white p-5 sm:p-7 w-full rounded-xl mb-5">
               <h2 className="text-2xl text-gray-800 font-semibold">Income Over Time Chart</h2>
               <p className='text-gray-800 text-base mb-5'>
                 Visualize your income and analyze trends to make informed decisions.
