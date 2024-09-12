@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import insights from '../assets/Insights.jpg';
 import design from '../assets/Design.jpg';
-import Phone from '../assets/Phone.png';
-import Stats from '../assets/Stats.png';
+import Phone from '../assets/phone.png';
+import Stats from '../assets/stats.png';
 import Footer from '../assets/footer.png';
 import Hand from '../assets/Hand.png';
 
