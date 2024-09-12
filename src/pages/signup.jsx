@@ -96,9 +96,11 @@ const Signup = () => {
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
-                  placeholder="Enter your username"
+                  placeholder="Enter your username max 10 characters"
                   className="w-full p-3 rounded-lg border-2 border-gray-300 bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
+                  maxLength="10"
+
                 />
               </div>
               <div>

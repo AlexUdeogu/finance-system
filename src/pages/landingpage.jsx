@@ -1,15 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import hero from '../assets/Hover.png';
 import insights from '../assets/Insights.jpg';
 import design from '../assets/Design.jpg';
 import Phone from '../assets/Phone.png';
 import Stats from '../assets/Stats.png';
-import Group from '../assets/Group.png';
-import Actions from '../assets/actions.png';	
 import Footer from '../assets/footer.png';
 import Hand from '../assets/Hand.png';
-import graph from '../assets/Graphs.png';
 
 
 
@@ -43,7 +39,7 @@ const Navbar = () => {
       </div>
 
       {/* Hero Image Section */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between p-4">
+      <div className="flex flex-col  lg:flex-row lg:items-center lg:justify-between p-4">
         <div className="flex justify-center lg:justify-start mb-4 lg:mb-0 lg:w-1/2">
           <img src={Hand} alt="Hand" className="w-full max-w-md lg:max-w-xl h-auto" />
         </div>
