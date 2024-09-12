@@ -288,7 +288,7 @@ const Info = () => {
           {/* Second Half */}
           <div className="flex flex-col justify-center items-center w-full lg:w-1/2">
             {/* Doughnut Chart */}
-            <div className='flex justify-center items-center w-full' style={{ height: '500px', maxWidth: '600px' }}>
+            <div className='flex justify-center items-center w-full' style={{ height: '300px', maxWidth: '600px' }}>
               <Doughnut 
                 data={data} 
                 options={options} 
@@ -311,7 +311,7 @@ const Info = () => {
         <h2 className="text-xl sm:text-2xl text-gray-800  font-semibold ">Line Chart</h2>
         <p className='text-gray-600 mb-5'>Visualize your financial trends over time.</p>
         <div className="flex justify-center rounded-md p-4 sm:p-10 bg-gray-100 mx-auto items-center">
-          <div className='bg-white rounded-md p-4 sm:p-10 w-full' style={{ height: '400px' }}> 
+          <div className='bg-white rounded-md p-4 sm:p-10 w-full' style={{ height: '300px' }}> 
             <Line 
               data={lineChartData} 
               options={{ 

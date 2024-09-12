@@ -8,6 +8,7 @@ const Dashboard = () => {
   const [activeLink, setActiveLink] = useState('');
   const [username, setUsername] = useState('');
   const [hasData, setHasData] = useState(true); // New state to track if data exists
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for dropdown menu
 
   useEffect(() => {
     setActiveLink(location.pathname);
@@ -78,37 +79,63 @@ const Dashboard = () => {
     }
   };
 
+  const handleLinkClick = () => {
+    setIsMenuOpen(false); // Close the dropdown when a link is clicked
+  };
+
   return (
     <div className='font-manrope'>
-      <div className="sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b lg:border-slate-900/10 dark:border-slate-300/[0.06] bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 lg:z-50 lg:border-b lg:border-slate-900/10 dark:border-slate-300/[0.06] bg-white/95">
+        <div className="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link to="/">
             <h1 className="text-3xl font-bold text-gray-800">QuantaBudget</h1>
           </Link>
 
+          {/* Dropdown for small screens */}
+          <div className="lg:hidden">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-800 focus:outline-none">
+              ☰
+            </button>
+            {isMenuOpen && (
+              <div className="absolute bg-white shadow-lg rounded-md mt-2">
+                <Link to="/dashboard/info" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
+                  Dashboard
+                </Link>
+                <Link to="/dashboard/income" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
+                  Incomes
+                </Link>
+                <Link to="/dashboard/expense" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
+                  Expenses
+                </Link>
+              </div>
+            )}
+          </div>
+
           <div className="hidden lg:flex flex-grow justify-start items-center ml-12 font-bold space-x-10">
             <Link 
               to="/dashboard/info" 
-              className={`text-gray-800  transition duration-300 ${activeLink === '/dashboard/info' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
+              className={`text-gray-800 transition duration-300 ${activeLink === '/dashboard/info' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
             >
               Dashboard
             </Link>
             <Link 
               to="/dashboard/income" 
-              className={`text-gray-800  transition duration-300 ${activeLink === '/dashboard/income' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
+              className={`text-gray-800 transition duration-300 ${activeLink === '/dashboard/income' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
             >
               Incomes
             </Link>
             <Link 
               to="/dashboard/expense" 
-              className={`text-gray-800  transition duration-300 ${activeLink === '/dashboard/expense' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
+              className={`text-gray-800 transition duration-300 ${activeLink === '/dashboard/expense' ? 'text-yellow-400' : 'hover:text-yellow-400'}`}
             >
               Expenses
             </Link>
           </div>
 
           <div className="flex items-center space-x-4">
-            <p className='font-semibold text-gray-800 '>Hello, {username || 'User'}</p>  
+            <p className='font-semibold text-gray-800 truncate w-32' title={username || 'User'}>
+              Hello, {username || 'User'}
+            </p>  
             <button
               onClick={downloadUserHistory}
               className="text-black bg-yellow-400 hover:bg-black font-bold hover:text-white py-2 px-4 rounded-full transition duration-300 hidden lg:block"
@@ -125,7 +152,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className='container mx-auto px-6 py-4'>
+      <div className='container mx-auto px-4 sm:px-6 py-4'>
         {location.pathname === '/dashboard/info' && !hasData ? (
           <NoData />
         ) : (
