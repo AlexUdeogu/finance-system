@@ -106,6 +106,7 @@ const Dashboard = () => {
                 ✖️
               </button>
             </div>
+            <p className="px-4 py-2 text-gray-800">Hello, {username || 'User'}</p> {/* Display username */}
             <Link to="/dashboard/info" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
               Dashboard
             </Link>
@@ -122,6 +123,14 @@ const Dashboard = () => {
             >
               Download History
             </button>
+            {/* Logout Button */}
+            <Link 
+              to="/login" 
+              onClick={() => { setIsMenuOpen(false); /* Add any logout logic here */ }} 
+              className="block w-full text-white bg-red-600 hover:bg-red-700 font-bold py-2 mt-2 rounded-md text-center"
+            >
+              Logout
+            </Link>
           </div>
 
           {/* Navigation links for larger screens */}
