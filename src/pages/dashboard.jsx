@@ -100,6 +100,12 @@ const Dashboard = () => {
 
           {/* Navigation links for small screens */}
           <div className={`absolute left-0 top-1 bg-white shadow-lg rounded-md mt-3 w-full transition-all duration-300 ${isMenuOpen ? 'block' : 'hidden'} lg:hidden`}>
+            <div className="flex justify-between items-center px-4 py-2">
+              <span className="font-bold">Menu</span>
+              <button onClick={() => setIsMenuOpen(false)} className="text-gray-800 focus:outline-none">
+                ✖️
+              </button>
+            </div>
             <Link to="/dashboard/info" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
               Dashboard
             </Link>
@@ -109,6 +115,13 @@ const Dashboard = () => {
             <Link to="/dashboard/expense" onClick={handleLinkClick} className="block px-4 py-2 text-gray-800 hover:bg-yellow-400">
               Expenses
             </Link>
+            {/* Download History Button for small screens */}
+            <button
+              onClick={downloadUserHistory}
+              className="block w-full text-black bg-yellow-400 hover:bg-black font-bold hover:text-white py-2 mt-2 rounded-md"
+            >
+              Download History
+            </button>
           </div>
 
           {/* Navigation links for larger screens */}
