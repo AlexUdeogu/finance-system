@@ -8,12 +8,15 @@ import Info from './components/info';
 import Income from './components/income';
 import Expense from './components/expense';
 import Settings from './components/settings';
+import { SpeedInsights } from "@vercel/speed-insights/react"
+
 
 
 function App() {
   return (
     <Router>
       <div>
+        <SpeedInsights />
         <Routes>
           <Route path="/" element={<Landingpage />} />
           <Route path="/signup" element={<Signup />} />
