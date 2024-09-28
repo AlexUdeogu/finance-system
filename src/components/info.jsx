@@ -58,6 +58,20 @@ const Info = () => {
   const [username, setUsername] = useState('');
   const [allTransactions, setAllTransactions] = useState([]);
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good Morning';
+    if (hour < 18) return 'Good Afternoon';
+    return 'Good Evening';
+  };
+
+  const getGreetingMessage = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Start your day with smart money management!';
+    if (hour < 18) return 'Keep your finances on track this afternoon!';
+    return 'Reflect on your financial goals this evening!';
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
@@ -238,10 +252,10 @@ const Info = () => {
       <div className='container mx-auto py-4 px-4 sm:px-6'>
         <div>
           <h1 className="text-4xl sm:text-6xl font-bold text-gray-800">
-            Welcome, {username}
+            {getGreeting()}, {username}
           </h1>
           <p className="text-gray-600 mt-2 text-base sm:text-xl">
-            From easy money management to financial goals and investments.
+            {getGreetingMessage()}
           </p>
         </div>
       </div>
