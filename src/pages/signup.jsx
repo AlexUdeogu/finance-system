@@ -156,7 +156,7 @@ const Signup = () => {
               <div className="flex justify-center sm:justify-start">
                 <button 
                   type="submit"
-                  className="text-black bg-yellow-400 hover:bg-yellow-700 font-bold hover:text-black py-2 px-6 rounded-full transition duration-300 w-full sm:w-auto text-center relative"
+                  className="text-black bg-yellow-400 font-bold hover:text-black py-2 px-6 rounded-full transition duration-300 w-full sm:w-auto text-center relative"
                   disabled={isLoading}
                 >
                   {isLoading ? (

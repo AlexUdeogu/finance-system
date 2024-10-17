@@ -113,12 +113,12 @@ const Login = () => {
               <div className="flex justify-center sm:justify-start">
                 <button 
                   type="submit"
-                  className="text-black bg-yellow-400 hover:bg-yellow-700 font-bold hover:text-black py-2 px-6 rounded-full transition duration-300 w-full sm:w-auto text-center relative"
+                  className="text-black bg-yellow-400 font-bold hover:text-black py-2 px-6 rounded-full transition duration-300 w-full sm:w-auto text-center relative"
                   disabled={isLoading}
                 >
                   {isLoading ? (
                     <>
-                      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                      <span className="absolute left-1/2 top-1/2 -translate-x-1/2  -translate-y-1/2">
                         <div className="w-5 h-5 border-t-2 border-b-2 border-black rounded-full animate-spin"></div>
                       </span>
                       <span className="opacity-0">Login</span>

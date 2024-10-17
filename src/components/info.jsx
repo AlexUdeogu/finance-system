@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Doughnut, Line } from 'react-chartjs-2';
 import {
@@ -13,7 +14,7 @@ import {
 } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend, LineElement, PointElement, LinearScale, CategoryScale);
-
+// make the below recents table a component when you see this
 const RecentsTable = ({ transactions }) => (
   <div className="bg-gray-100 mb-10 rounded-md p-4 sm:p-10 w-full overflow-x-auto">
     <table className="w-full rounded-md">
@@ -48,6 +49,7 @@ const RecentsTable = ({ transactions }) => (
 );
 
 const Info = () => {
+  const navigate = useNavigate();
   const [incomes, setIncomes] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
@@ -71,6 +73,29 @@ const Info = () => {
     if (hour < 18) return 'Keep your finances on track this afternoon!';
     return 'Reflect on your financial goals this evening!';
   };
+
+  //user logout function
+  useEffect(() => {
+    let timeoutId;
+    const logoutUser = () => {
+      alert("You have been logged out due to inactivity.");
+      localStorage.removeItem('token'); // Remove token (or any other session data)
+      localStorage.removeItem('userId');
+      navigate('/login'); 
+    };
+    const resetLogoutTimer = () => {
+      if (timeoutId) clearTimeout(timeoutId); 
+      timeoutId = setTimeout(logoutUser, 10 * 60 * 1000); 
+    };
+    const events = ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'];
+    events.forEach((event) => window.addEventListener(event, resetLogoutTimer));
+    resetLogoutTimer();
+    return () => {
+      events.forEach((event) => window.removeEventListener(event, resetLogoutTimer));
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  });
+  // end of logout function
 
   useEffect(() => {
     const token = localStorage.getItem('token');

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-/*import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'; */
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import {
@@ -146,6 +145,29 @@ const Income = () => {
     setSelectedDate('');
     setDescription('');
   };
+
+  //user logout function
+  useEffect(() => {
+    let timeoutId;
+    const logoutUser = () => {
+      alert("You have been logged out due to inactivity.");
+      localStorage.removeItem('token'); // Remove token (or any other session data)
+      localStorage.removeItem('userId');
+      navigate('/login'); 
+    };
+    const resetLogoutTimer = () => {
+      if (timeoutId) clearTimeout(timeoutId); 
+      timeoutId = setTimeout(logoutUser, 10 * 60 * 1000); 
+    };
+    const events = ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'];
+    events.forEach((event) => window.addEventListener(event, resetLogoutTimer));
+    resetLogoutTimer();
+    return () => {
+      events.forEach((event) => window.removeEventListener(event, resetLogoutTimer));
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  });
+  // end of logout function
 
   const handleDelete = async (incomeId) => {
     setDeletingIncomeId(incomeId);
